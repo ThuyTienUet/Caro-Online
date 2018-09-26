@@ -3,17 +3,30 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+let routes = require('./routes/index');
+require('./socket.io/socket.io').socket_io.connect(io);
+const models = require('./database/db-connect');
+
+
+const bodyParser = require('body-parser');
 
 app.use(express.static(path.join(__dirname, '../client')));
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../client/index.html'))
 });
-
-server.listen(3000);
+app.use(bodyParser.json());
 
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
+  console.log('socket connected');
+  socket.on('joinRoom', function(data) {
+    socket.join(data.nameRoom);
+    io.to(data.nameRoom).emit('join');
+  })
 });
+
+app.use('/api', routes);
+
+server.listen(3000, function () {
+	console.log('\n============================ LISTENING ON PORT 3000================================\n');
+});
+
