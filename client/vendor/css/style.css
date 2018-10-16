@@ -23,15 +23,18 @@ body {
 
 .navbar-inverse .navbar-brand {
     color: #fff;
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
 }
 
 table {
-    width: 81%;
+    width: 75%;
     border-collapse: collapse;
+    margin: auto;
 }
 
 td {
-    width: 9%;
+    width: 5%;
     border: 2px solid rgb(116, 12, 119);
 }
 
@@ -60,7 +63,6 @@ td::after {
 
 .chat-box {
     margin: 20px 5px;
-    max-height: 400px;
 }
 
 .with-nav-tabs.panel-primary .nav-tabs>li>a, .with-nav-tabs.panel-primary .nav-tabs>li>a:hover, .with-nav-tabs.panel-primary .nav-tabs>li>a:focus {
@@ -95,6 +97,15 @@ td::after {
 
 .with-nav-tabs.panel-primary .nav-tabs>li.dropdown .dropdown-menu>.active>a, .with-nav-tabs.panel-primary .nav-tabs>li.dropdown .dropdown-menu>.active>a:hover, .with-nav-tabs.panel-primary .nav-tabs>li.dropdown .dropdown-menu>.active>a:focus {
     background-color: #4a9fe9;
+}
+
+.panel-primary {
+    height: 390px;
+}
+
+.conservation {
+    height: 250px;
+    overflow-y: scroll;
 }
 
 .input-msg-write input {
