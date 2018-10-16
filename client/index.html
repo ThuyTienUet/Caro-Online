@@ -6,28 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Caro Online</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="vendor/css/bootstrap.min.css">
-    <link rel="stylesheet" href="vendor//css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="vendor/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <script src="vendor/js/jquery.min.js"></script>
-    <script src="vendor/js/bootstrap.min.js"></script>
     <script src="vendor/js/angular.min.js"></script>
     <script src="vendor/js/angular-route.min.js"></script>
-    <script src="vendor/js/socket.io.js"></script>
-    <script>
-        var socket = io('http://localhost:3000');
-        socket.on('news', function (data) {
-            console.log(data);
-            socket.emit('my other event', { my: 'data' });
-        });
-    </script>
     <script src="index.js"></script>
     <script src="src/home/home.js"></script>
     <script src="src/room/room.js"></script>
+    <script src="src/directives/navigation/navigation.controller.js"></script>
+    <script src="src/directives/navigation/navigation.directive.js"></script>
+    
 </head>
 
 <body ng-app="caroOnline">
-    Caro Online
     <ng-view></ng-view>
 </body>
 
