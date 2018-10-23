@@ -1,5 +1,5 @@
 angular
-    .module('caroOnline', ['ngRoute'])
+    .module('caroOnline', ['angularModalService','ngRoute'])
     .config(['$routeProvider', function config($routeProvider) {
         $routeProvider
             .when('/', {

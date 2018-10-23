@@ -1,0 +1,46 @@
+<div class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="wiModal.onCancelButtonClicked()" aria-hidden="true">
+                    &times;
+                </button>
+                <h3 class="modal-title">
+                    <span class="user-define-16x16"></span>&nbsp; Login</h3>
+            </div>
+            <div class="modal-body">
+                <div role="alert" ng-show="formError" class="alert alert-danger">
+                    {{ formError }}
+                </div>
+                <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input ng-model="name" type="text" class="form-control"  placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                            <input ng-model="password" type="password" class="form-control" placeholder="Password">
+                        </div>
+                    </div>
+                <!-- <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" ng-model="name">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" ng-model="password">
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="wiModal.onOkButtonClicked()">
+                    <span class="ok-16x16"></span>&nbsp;OK
+                </button>
+                <button type="button" ng-click="wiModal.onCancelButtonClicked()" class="btn btn-default">
+                    <span class="close-16x16"></span>&nbsp;Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

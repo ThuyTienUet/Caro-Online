@@ -9,10 +9,6 @@ module.exports.define = function(sequelize, DataTypes) {
         name: {
             type: DataTypes.STRING(100),
             allowNull: false
-        },
-        numOfmember: {
-            type: DataTypes.INTEGER,
-            allowNull: false
         }
     });
 };
