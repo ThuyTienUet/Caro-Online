@@ -2,11 +2,11 @@ angular
     .module('caroOnline', ['angularModalService','ngRoute'])
     .config(['$routeProvider', function config($routeProvider) {
         $routeProvider
-            .when('/jknj', {
+            .when('/', {
                 templateUrl: 'src/home/home.html',
                 controller: 'homeCtrl'
             })
-            .when('/', {
+            .when('/room/list', {
                 templateUrl: 'src/room/room.html',
                 controller: 'roomCtrl'
             })
@@ -14,7 +14,7 @@ angular
                 templateUrl: 'src/login/login.html',
                 controller: 'loginCtrl'
             })
-            .when('/signup', {
+            .when('/register', {
                 templateUrl: 'src/register/register.html',
                 controller: 'registerCtrl'
             })
