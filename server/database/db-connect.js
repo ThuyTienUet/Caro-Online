@@ -13,10 +13,12 @@ var db = {};
 db.User = require('./schemas/user.js').define(sequelize, Sequelize);
 db.Room = require('./schemas/room.js').define(sequelize, Sequelize);
 
-// db.Room.belongsToMany(db.User, {
-//     through : 'user_room',
-//     foreignKey: 'room_id'
-// });
+db.Room.hasMany(db.User, {
+    foreignkey: {
+        name: 'idRoom',
+        allowNull: true
+    }
+})
 
 sequelize.sync().then(()=>{
     console.log('\n============================ SYNC DATABASE SUCCESS ====================\n');

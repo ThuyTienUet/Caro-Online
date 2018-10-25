@@ -10,9 +10,13 @@ module.exports.login = (req, res) => {
             password: md5(req.body.password)
         }
     }).then((user) => {
-        res.send({ code: 401, content: "Login successfully", user: user })
+        if (user) {
+            res.send({ code: 200, content: "SUCCESSFULLY", user: user })
+        } else {
+            res.send({code: 404, content: "NOT FOUND"})
+        }
     }).catch((err) => {
-        res.send({ code: 401, content: "Login fail" + err })
+        res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
     })
 }
 
@@ -28,18 +32,47 @@ module.exports.register = (req, res) => {
                 password: md5(req.body.password),
                 point: req.body.point
             }).then(user => {
-                console.log('register', user);
                 res.send({ code: 200, content: "SUCCESSFULLY", user: user })
             }).catch(err => {
-                console.error('register err', err);
-                res.send({ code: 401, content: "Register fail" + err })
+                res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
             });
         } else 
-            res.send({ code: 401, content: "Register fail, username" })
+            res.send({ code: 400, content: "REGISTER FAIL" })
     }).catch((err) => {
-        res.send({content: err})
+        res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
     })
+}
 
+module.exports.updatePoint = (req, res) => {
+    User.update(
+        {point: 4},
+        {where: {
+            username: req.body.username
+        }}
+    ).then(user => {
+        // if(user){
+        //     user.dataValues.point = 3;
+        // } else {
+        //     res.send({code: 404, content: "NOT FOUND"})
+        // }
+    }).catch((err) => {
+        // res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
+        res.send({ code: 200, content: "SUCCESSFULLY"})
+    })
+}
+
+module.exports.getListUser = (req, res) => {
+    User.findAll({
+
+    }).then(list => {
+        if(list) {
+            res.send({ code: 200, content: "SUCCESSFULLY", listUser: list })
+        } else {
+            res.send({code: 404, content: "NOT FOUND"})
+        }
+    }).catch((err) => {
+        res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
+    })
 }
 
 
