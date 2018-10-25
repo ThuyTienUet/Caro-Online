@@ -27,23 +27,6 @@ body {
     font-size: 30px;
 }
 
-table {
-    width: 75%;
-    border-collapse: collapse;
-    margin: auto;
-}
-
-td {
-    width: 5%;
-    border: 2px solid rgb(116, 12, 119);
-}
-
-td::after {
-    content: '';
-    display: block;
-    margin-top: 100%;
-}
-
 .player-box {
     display: flex;
     justify-content: space-evenly;
@@ -135,4 +118,61 @@ td::after {
     right: 0;
     top: 11px;
     width: 33px;
+}
+
+.board {
+    margin: auto;
+    margin-top: 10px;
+    width: 580px;
+    height: 580px;
+}
+
+.boardRow {
+    width: 100%;
+    height: 6.6666666667%;
+    border-radius: 3px;
+    border-left: 1px solid rgb(116, 12, 119);
+    box-sizing: border-box;
+}
+
+.boardCol {
+    width: 6.6666666667%;
+    height: 100%;
+    background-color: transparent;
+    float: left;
+    border-radius: 3px;
+    border-right: 1px solid rgb(116, 12, 119);
+    border-bottom: 1px solid rgb(116, 12, 119);
+    box-sizing: border-box;
+}
+
+.boardCellCross {
+    margin: auto;
+    margin-top: 0.65%;
+    width: 3px;
+    height: 98.7%;
+    background-color: #420b68;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    border-radius: 1.5px;
+}
+
+.boardCellCross:before {
+    background-color: inherit;
+    border-radius: inherit;
+    height: inherit;
+    width: inherit;
+    position: absolute;
+    content: "";
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.boardCellCircle {
+    margin: 15%;
+    width: 70%;
+    height: 70%;
+    border: 3px solid #420b68;
+    border-radius: 50%;
+    box-sizing: border-box;
 }
