@@ -1,8 +1,8 @@
 angular
     .module('caroOnline')
     .service('auth', authentication);
-authentication.$inject = ['$window', '$http'];
-function authentication($window, $http) {
+authentication.$inject = ['$window', '$http', '$location'];
+function authentication($window, $http, $location) {
     var saveToken = function (token) {
         $window.localStorage['user-token'] = token;
     };
@@ -38,6 +38,7 @@ function authentication($window, $http) {
     var logout = function () {
         $window.localStorage.removeItem('token');
         $window.localStorage.removeItem('user');
+        $location.path('/')
     };
     var isLoggedIn = function () {
         var user = getUser();
