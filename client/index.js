@@ -3,10 +3,14 @@ angular
     .config(['$routeProvider', function config($routeProvider) {
         $routeProvider
             .when('/', {
+                templateUrl: 'src/intro/intro.html',
+                controller: 'introCtrl'
+            }) 
+            .when('/home', {
                 templateUrl: 'src/home/home.html',
                 controller: 'homeCtrl'
             })
-            .when('/room/list', {
+            .when('/room', {
                 templateUrl: 'src/room/room.html',
                 controller: 'roomCtrl'
             })

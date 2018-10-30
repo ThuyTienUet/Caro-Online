@@ -12,14 +12,22 @@ function roomCtrl($scope) {
             console.log('join ');
         })
     }
-
-    // let xoTable = document.getElementById("xoTable");
-    // for (let i = 0; i < 10; i++) {
-    //     let row = xoTable.appendChild("DIV");
-    //     xoTable.write(`<div class="boardRow"></div>`);
-    //     let row = document.getElementsByClassName("boardRow");
-    //     for (let j = 0; j < 10; j++) {
-    //         row.innerHTML = '<div class="boardCol"> <div class="boardCell" id="' + i + '-' + j + '"></div> </div>';
-    //     }
-    // }
+    
+    Array.matrix = function (n, init) {
+        let mat = [];
+        for (let i = 0 ; i < n; i++) {
+            let a = [];
+            for (let j = 0; j < n; j++) {
+                a[j] = init;
+            }
+            mat[i] = a;
+        }
+        return mat;
+    }
+    $scope.board = Array.matrix(15, 0);
+    
+    $scope.click = function (row, col) {
+        console.log(row, col);
+        
+    }
 }

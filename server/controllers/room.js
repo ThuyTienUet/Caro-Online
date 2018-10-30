@@ -1,6 +1,7 @@
 var models = require('../database/db-connect');
 var Room = models.Room;
 var User = models.User;
+var socket_io = require('../socket.io/socket.io').socket_io
 
 module.exports.getListRoom = (req, res) => {
     Room.findAll({
@@ -35,10 +36,14 @@ module.exports.createRoom = (req, res) => {
                 }).then((room) => {
                     room.addUsers([user.dataValues.id])
                         .then((result) => {
-                            console.log('add user', result);
+                           // console.log('add user', result);
                         }).catch((err) => {
                             console.log(err);
                         })
+                        console.log(socket_io.io);
+                        
+                    socket_io.io.emit('createRoom', room);
+
                     res.send({ code: 200, content: "SUCCESSFULLY", room: { id: room.id, name: room.name, numUser: 1 } })
                 })
             })

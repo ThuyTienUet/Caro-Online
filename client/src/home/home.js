@@ -15,10 +15,10 @@ function homeCtrl($scope, $http, auth) {
         })
     }
     $scope.addRoom = function() {
-        console.log('add room');
-        let user = auth.getUser();
-        console.log(user);
-        
+        let user = JSON.parse(auth.getUser());
+        let room = {
+            name: user.username
+        }
         // $http.post('api/room/listUSer', tmp)
         //     .then(function successCallback(data) {
         //         console.log(data);
@@ -26,11 +26,16 @@ function homeCtrl($scope, $http, auth) {
         //         console.log(err);
         //     })
 
-        // $http.post('api/room/add', tmp)
-        //     .then(function successCallback(data) {
-        //         console.log(data);
-        //     }, function errorCallback(err) {
-        //         console.log(err);
-        //     })
+        $http.post('api/room/new', room)
+            .then(function successCallback(data) {
+                console.log(data);
+
+            }, function errorCallback(err) {
+                console.log(err);
+            })
     }
+
+    socket.on('createRoom', function (data) {
+        console.log(data);
+    })
 }

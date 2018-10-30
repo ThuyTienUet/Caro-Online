@@ -122,17 +122,17 @@ body {
 }
 
 .board {
-    margin: auto;
-    margin-top: 10px;
+    margin: 0px;
     width: 580px;
     height: 580px;
+    /* border: 0.5px solid rgb(116, 12, 119); */
 }
 
 .boardRow {
     width: 100%;
     height: 6.6666666667%;
-    border-radius: 3px;
-    border-left: 1px solid rgb(116, 12, 119);
+    /* border-radius: 3px; */
+    /* border-left: 1px solid rgb(116, 12, 119); */
     box-sizing: border-box;
 }
 
@@ -141,12 +141,17 @@ body {
     height: 100%;
     background-color: transparent;
     float: left;
-    border-radius: 3px;
-    border-right: 1px solid rgb(116, 12, 119);
-    border-bottom: 1px solid rgb(116, 12, 119);
+    /* border-radius: 3px; */
+    /* border-right: 1px solid rgb(116, 12, 119);
+    border-bottom: 1px solid rgb(116, 12, 119); */
     box-sizing: border-box;
 }
-
+.boardCell {
+    width: 100%;
+    height: 100%;
+    border-radius: 3px;
+    border: 0.5px solid rgb(116, 12, 119);
+}
 .boardCellCross {
     margin: auto;
     margin-top: 0.65%;
@@ -176,4 +181,38 @@ body {
     border: 3px solid #420b68;
     border-radius: 50%;
     box-sizing: border-box;
+}
+
+.panel {
+    border: 0px;
+    background: rgba(0, 0, 0, 0.2);
+    color: #ffff;
+    text-align: center;
+    padding: inherit;
+    position: relative;
+    transition: 1s;
+}
+
+.panenl-defautl>.panel-heading {
+    background-color: transparent;
+}
+
+h4 {
+    margin: 0;
+    padding: 0;
+    font-size: 45px;
+    color: #fff;
+    font-family: 'Lobster', cursive;
+}
+
+.panel:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.btn-success {
+    border: 0px;
+}
+
+.form-group label {
+    float: left;
 }
