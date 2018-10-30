@@ -17,8 +17,11 @@ function authentication($window, $http) {
     var login = function (user, cb) {
         return $http.post('/api/login', user) 
             .then(function successCallback(data) {
+                
                 saveToken(data.data.token);
                 cb(data);
+            }, function errorCallback(err) {
+                console.log(err);
             });
     };
     var logout = function () {
