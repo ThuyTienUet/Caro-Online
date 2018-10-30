@@ -2,49 +2,47 @@ angular
     .module('caroOnline')
     .controller('homeCtrl', homeCtrl);
 
-function homeCtrl($scope, $http, auth) {
+function homeCtrl($scope, $http, auth, $location) {
 
     let socket = io('http://localhost:3000');
+
     let tmp = {};
-    $http.post('api/room/listUSer', tmp)
+    $scope.rooms = [];
+    $scope.users = [];
+
+    $http.post('api/room/user/list', tmp)
         .then(function successCallback(data) {
-            console.log(data);
+            $scope.users = data.data.listUser;
         }, function errorCallback(err) {
             console.log(err);
         })
 
-
-    $scope.onClick = function () {
-        socket.emit('joinRoom', {
-            nameRoom: 'a'
+    $http.post('api/room/list', tmp)
+        .then(function successCallback(data) {
+            $scope.rooms = data.data.listRoom;
+        }, function errorCallback(err) {
+            console.log(err);
         })
-        socket.on('join', function (data) {
-            console.log('join ');
-        })
-    }
 
-    $scope.addRoom = function() {
+    $scope.addRoom = function () {
         let user = JSON.parse(auth.getUser());
         let room = {
             name: user.username
         }
-        // $http.post('api/room/listUSer', tmp)
-        //     .then(function successCallback(data) {
-        //         console.log(data);
-        //     }, function errorCallback(err) {
-        //         console.log(err);
-        //     })
-
         $http.post('api/room/new', room)
             .then(function successCallback(data) {
                 console.log(data);
+                $location.path('/room')
 
             }, function errorCallback(err) {
                 console.log(err);
             })
     }
 
-    socket.on('createRoom', function (data) {
-        console.log(data);
+    socket.on('roomNew', function (data) {
+        
     })
+    $scope.joinRoom = function () {
+
+    }
 }

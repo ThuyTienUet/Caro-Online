@@ -12,9 +12,9 @@
         <div class="header">
             <h3>List room</h3>
         </div>
-        <div class="list-group-item" ng-repeat="room in data.Rooms">
-            <h4>
-                <a href="/#!/room/{{ room.id }}">{{ Rooms.name }}</a>
+        <div class="list-group-item" ng-repeat="room in rooms">
+            <h4 ng-click="joinRoom()" style="color: black; cursor: pointer">
+                {{ room.name }}
             </h4>
         </div>
     </div>
@@ -23,7 +23,7 @@
             <h3>Ranking</h3>
         </div>
         <ul class="row list-group">
-            <li class="list-group-item" ng-repeat="user in data.Users">
+            <li class="list-group-item" ng-repeat="user in users">
                 <h5>{{ user.username }}</h5> <span class="badge">{{ user.point }}</span>
             </li>
     </div>

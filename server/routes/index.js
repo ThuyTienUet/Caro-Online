@@ -22,7 +22,7 @@ router.post('/room/new', (req, res) => {
     ctrlRoom.createRoom(req, res);
 })
 router.post('/room/user/list', (req, res) => {
-    ctrlRoom.getListUser(req, res);
+    ctrlUser.getListUser(req, res);
 })
 router.post('/room/delete', (req, res) => {
     ctrlRoom.deleteRoom(req, res);
