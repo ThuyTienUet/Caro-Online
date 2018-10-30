@@ -211,3 +211,11 @@ h4 {
 .form-group label {
     float: left;
 }
+
+.header {
+    text-align: center
+}
+
+.header h3 {
+    color: #fff;
+}

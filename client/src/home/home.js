@@ -5,6 +5,14 @@ angular
 function homeCtrl($scope, $http) {
 
     let socket = io('http://localhost:3000');
+    let tmp = {};
+    $http.post('api/room/listUSer', tmp)
+        .then(function successCallback(data) {
+            console.log(data);
+        }, function errorCallback(err) {
+            console.log(err);
+        })
+
 
     $scope.onClick = function () {
         socket.emit('joinRoom', {
@@ -17,7 +25,7 @@ function homeCtrl($scope, $http) {
     $scope.addRoom = () => {
         console.log('add room');
         let tmp = {
-            name : 'thao'
+            name: 'thao'
         }
         $http.post('api/room/listUSer', tmp)
             .then(function successCallback(data) {

@@ -16,7 +16,6 @@
 				$scope.formError = "All fields required, please try again";
 				return false;
 			} else {
-                console.log('snakgms,a');
 				doLogin();
 			}
 		};

@@ -24,6 +24,15 @@ function authentication($window, $http) {
                 console.log(err);
             });
     };
+
+    var register = function(user, callback) {
+        return $http.post('/api/register', user)
+            .then(function successCallback(data) {
+                callback(data.data);
+            }, function errorCallback(err) {
+                console.log(err);
+            });
+    }
     var logout = function () {
         $window.localStorage.removeItem('token');
         $window.localStorage.removeItem('user');
@@ -41,6 +50,7 @@ function authentication($window, $http) {
         saveToken: saveToken,
         getToken: getToken,
         login: login,
+        register: register,
         logout: logout,
         isLoggedIn: isLoggedIn
     };

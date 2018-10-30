@@ -6,7 +6,7 @@ angular
                 templateUrl: 'src/home/home.html',
                 controller: 'homeCtrl'
             })
-            .when('/room', {
+            .when('/room/:', {
                 templateUrl: 'src/room/room.html',
                 controller: 'roomCtrl'
             })
