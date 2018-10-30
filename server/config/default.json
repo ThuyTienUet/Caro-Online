@@ -11,7 +11,7 @@
         },
         "db_name": "caro_online",
         "user": "root",
-        "password": "12345678"
+        "password": ""
     },
     "app": {
         "port": 5001,

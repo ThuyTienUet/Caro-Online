@@ -4,7 +4,7 @@
         .controller('registerCtrl', registerCtrl);
 
     //registerCtrl.$inject = ['$location', 'authentication', '$http'];
-    function registerCtrl($location, authentication, $http, $scope) {
+    function registerCtrl($location, auth, $http, $scope) {
         $scope.user = {
             username: "",
             password: "",
@@ -28,7 +28,7 @@
 
         function doRegister() {
             $scope.formError = "";
-            authentication
+            auth
                 .register($scope.user, function(data) {
                     if (data.code === 200) {
                         $location.path('/login');
