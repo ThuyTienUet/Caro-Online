@@ -1,6 +1,6 @@
 angular
     .module('caroOnline')
-    .service('authentication', authentication);
+    .service('auth', authentication);
 authentication.$inject = ['$window', '$http'];
 function authentication($window, $http) {
     var saveToken = function (token) {

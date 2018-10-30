@@ -2,7 +2,7 @@ angular
     .module('caroOnline')
     .controller('homeCtrl', homeCtrl);
 
-function homeCtrl($scope, $http) {
+function homeCtrl($scope, $http, auth) {
 
     let socket = io('http://localhost:3000');
 
@@ -14,17 +14,17 @@ function homeCtrl($scope, $http) {
             console.log('join ');
         })
     }
-    $scope.addRoom = () => {
+    $scope.addRoom = function() {
         console.log('add room');
-        let tmp = {
-            name : 'thao'
-        }
-        $http.post('api/room/listUSer', tmp)
-            .then(function successCallback(data) {
-                console.log(data);
-            }, function errorCallback(err) {
-                console.log(err);
-            })
+        let user = auth.getUser();
+        console.log(user);
+        
+        // $http.post('api/room/listUSer', tmp)
+        //     .then(function successCallback(data) {
+        //         console.log(data);
+        //     }, function errorCallback(err) {
+        //         console.log(err);
+        //     })
 
         // $http.post('api/room/add', tmp)
         //     .then(function successCallback(data) {
