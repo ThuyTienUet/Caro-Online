@@ -2,18 +2,13 @@
 <div class="content">
     <div class="container">
         <div class="col-md-8">
-            <div class="board">
-                <script type="text/javascript">
-                    for (let i = 0; i < 15; i++) {
-                        document.write('<div class="boardRow">');
-                        for (let j = 0; j < 15; j++) {
-                            document.write('<div class="boardCol">');
-                            document.write('<div class="boardCell" id="' + i + '-' + j + '"></div>');
-                            document.write('</div>');
-                        }
-                        document.write('</div>');
-                    }
-                </script>
+            <div class="board" id="xoTable">
+                
+                <div class="boardRow" ng-repeat="x in board " ng-init="parentIndex = $index">
+                    <div class="boardCol" ng-repeat="y in board[0] track by $index">
+                        <div class="boardCell" ng-click='click(parentIndex, $index)'> </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="col-md-4">
@@ -32,8 +27,13 @@
                 <div class="panel with-nav-tabs panel-primary">
                     <div class="panel-heading">
                         <ul class="nav nav-tabs">
-                            <li class="active"><a data-target="#chat-room" data-toggle="tab" style="cursor: pointer;">Chat</a></li>
-                            <li><a data-target="#members" data-toggle="tab" style="cursor: pointer;">Members</a></li>
+
+                            <li class="active">
+                                <a data-target="#chat-room" data-toggle="tab" style="cursor: pointer;">Chat</a>
+                            </li>
+                            <li>
+                                <a data-target="#members" data-toggle="tab" style="cursor: pointer;">Members</a>
+                            </li>
                         </ul>
                     </div>
                     <div class="panel-body">
@@ -57,8 +57,10 @@
                                 <div class="type-msg">
                                     <div class="input-msg-write">
                                         <input type="text" class="write-msg" placeholder="Type a message">
-                                        <button class="msg-send-btn" type="button"><span class="
-                                                glyphicon glyphicon-send"></span></button>
+                                        <button class="msg-send-btn" type="button">
+                                            <span class="
+                                                glyphicon glyphicon-send"></span>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

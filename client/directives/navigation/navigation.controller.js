@@ -3,19 +3,19 @@ angular
     .module('caroOnline')
     .controller('navigationCtrl', navigationCtrl);
 
-function navigationCtrl($scope, $window, authentication) {
+function navigationCtrl($scope, $window, auth) {
 
     $scope.isLoggedIn = false;
     $scope.name = "";
 
     $scope.logout = function () {
         $window.localStorage.removeItem('user-token');
-        authentication.logout();
+        auth.logout();
         $scope.isLoggedIn = false;
         window.location.href;
     };
 
-    $scope.isLoggedIn = authentication.isLoggedIn();
+    $scope.isLoggedIn = auth.isLoggedIn();
 
     if ($scope.isLoggedIn == true) {
         let user = JSON.parse($window.localStorage['user']);

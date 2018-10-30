@@ -1,3 +1,4 @@
+
 var jwt = require('jsonwebtoken');
 var models = require('../database/db-connect');
 var User = models.User;
@@ -11,7 +12,7 @@ module.exports.login = (req, res) => {
         }
     }).then((user) => {
         if (user) {
-            res.send({ code: 200, content: "SUCCESSFULLY", user: user })
+            res.send({ code: 200, content: "SUCCESSFULLY", user: {user: user.dataValues, token: jwt.sign(user.dataValues, 'secret')}})
         } else {
             res.send({code: 404, content: "NOT FOUND"})
         }

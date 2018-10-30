@@ -3,8 +3,8 @@
 		.module('caroOnline')
 		.controller('loginCtrl', loginCtrl);
 
-	//loginCtrl.$inject = ['authentication', '$http'];
-	function loginCtrl($location, authentication, $http,$scope) {
+	//loginCtrl.$inject = ['auth', '$http'];
+	function loginCtrl($location, auth, $http,$scope) {
 		$scope.user = {
 		 	username: "",
 		 	password: ""
@@ -22,18 +22,14 @@
 
 		function doLogin() {
 			$scope.formError = "";
-			authentication
+			auth
 				.login($scope.user, function (data) {
-                    console.log(data);
+					if (data.code != 200) {
+						$scope.formError = "Username or password is incorrect"
+					} else {
+						$location.path('/home')
+					}
                 })
-				.then(function errorCallback(err) {
-					$scope.formError = err;
-				})
-				.then(function(data) {
-                    console.log(data);
-					// $location.search('page', null);
-					// $location.path($scope.returnPage);
-				});
 		};
 	}
 }) ();

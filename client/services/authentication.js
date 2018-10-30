@@ -1,6 +1,6 @@
 angular
     .module('caroOnline')
-    .service('authentication', authentication);
+    .service('auth', authentication);
 authentication.$inject = ['$window', '$http'];
 function authentication($window, $http) {
     var saveToken = function (token) {
@@ -8,8 +8,10 @@ function authentication($window, $http) {
     };
     var getToken = function () {
         return $window.localStorage['token']; 
-    };
-
+    }; 
+    var saveUser = function (user) {
+        window.localStorage['user'] = JSON.stringify(user);
+    }
     var getUser = function () {
         return $window.localStorage['user']
     }
@@ -17,9 +19,9 @@ function authentication($window, $http) {
     var login = function (user, cb) {
         return $http.post('/api/login', user) 
             .then(function successCallback(data) {
-                
-                saveToken(data.data.token);
-                cb(data);
+                saveToken(data.data.user.token);
+                saveUser(data.data.user.user);
+                cb(data.data);
             }, function errorCallback(err) {
                 console.log(err);
             });
@@ -49,6 +51,7 @@ function authentication($window, $http) {
     return {
         saveToken: saveToken,
         getToken: getToken,
+        getUser: getUser,
         login: login,
         register: register,
         logout: logout,
