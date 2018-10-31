@@ -46,6 +46,6 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
     $scope.joinRoom = function (roomName) {
         socket.emit('joinRoom', roomName);
         $window.localStorage['room'] = roomName;
-        $location.path('/room')
+        $location.path('/room');
     }
 }
