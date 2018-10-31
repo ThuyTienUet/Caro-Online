@@ -187,7 +187,6 @@ body {
     border: 0px;
     background: rgba(0, 0, 0, 0.2);
     color: #ffff;
-    text-align: center;
     padding: inherit;
     position: relative;
     transition: 1s;
@@ -195,6 +194,7 @@ body {
 
 .panenl-defautl>.panel-heading {
     background-color: transparent;
+    text-align: center;
 }
 
 h4 {
