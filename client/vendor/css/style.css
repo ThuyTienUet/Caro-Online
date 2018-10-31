@@ -224,3 +224,34 @@ h4 {
 .header h3 {
     color: #fff;
 }
+
+.box {
+    margin-top: 15%;
+    border-left: 5px solid #420b68;
+    height: 380px;
+}
+
+.greeting {
+    padding-left: 5%;
+    padding-top: 15%;
+    font-weight: 800;
+    color: darkslateblue;
+    font-family: 'Poppins', sans-serif;
+}
+
+.box a {
+    padding-left: 5%;
+    color: #fff;
+    text-decoration: none;
+}
+
+.box a:hover {
+    color: darkslateblue;
+}
+
+img {
+    display: block;
+    margin-top: 15%;
+    margin-left: auto;
+    margin-right: auto;
+}
