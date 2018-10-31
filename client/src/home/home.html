@@ -13,7 +13,7 @@
             <h3>List room</h3>
         </div>
         <div class="list-group-item" ng-repeat="room in rooms">
-            <h4 ng-click="joinRoom()" style="color: black; cursor: pointer">
+            <h4 ng-click="joinRoom(room.name)" style="color: black; cursor: pointer">
                 {{ room.name }}
             </h4>
         </div>

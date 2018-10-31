@@ -2,9 +2,8 @@ angular
     .module('caroOnline')
     .controller('homeCtrl', homeCtrl);
 
-function homeCtrl($scope, $http, auth, $location) {
+function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
 
-    let socket = io('http://localhost:3000');
 
     let tmp = {};
     $scope.rooms = [];
@@ -31,18 +30,22 @@ function homeCtrl($scope, $http, auth, $location) {
         }
         $http.post('api/room/new', room)
             .then(function successCallback(data) {
-                console.log(data);
+                $window.localStorage['room'] = user.username;
                 $location.path('/room')
 
             }, function errorCallback(err) {
                 console.log(err);
             })
     }
-
     socket.on('roomNew', function (data) {
-        
+        $timeout(function () {
+            $scope.rooms.push(data)
+        })
     })
-    $scope.joinRoom = function () {
 
+    $scope.joinRoom = function (roomName) {
+        socket.emit('joinRoom', roomName);
+        $window.localStorage['room'] = roomName;
+        $location.path('/room')
     }
 }

@@ -16,14 +16,6 @@ app.get('/', function (req, res) {
 });
 app.use(bodyParser.json());
 
-io.on('connection', function (socket) {
-  console.log('socket connected');
-  socket.on('joinRoom', function(data) {
-    socket.join(data.nameRoom);
-    io.to(data.nameRoom).emit('join');
-  })
-});
-
 app.use('/api', routes);
 
 server.listen(3000, function () {

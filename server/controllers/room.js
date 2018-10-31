@@ -36,18 +36,15 @@ module.exports.createRoom = (req, res) => {
                 }).then((room) => {
                     room.addUsers([user.dataValues.id])
                         .then((result) => {
-                           // console.log('add user', result);
+                            // console.log('add user', result);
                         }).catch((err) => {
                             console.log(err);
                         })
-                    // socket_io.io.emit('createRoom', room);
-                    console.log(socket_io.socket);
-                    
-                        socket_io.socket.broadcast.emit('roomNew', room);
+                    socket_io.io.emit('roomNew', room);
+                    socket_io.socket.join(room.name);
                     res.send({ code: 200, content: "SUCCESSFULLY", room: { id: room.id, name: room.name, numUser: 1 } })
                 })
             })
-
         } else {
             res.send({ code: 401, content: "CREATE ROOM FAIL" })
         }
@@ -87,25 +84,6 @@ module.exports.addUser = (req, res) => {
         res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
     })
 }
-
-// module.exports.getListUser = (req, res) => {
-//     Room.findOne({
-//         where: {
-//             name: req.body.nameRoom
-//         },
-//         include: {
-//             model: User
-//         }
-//     }).then((room) => {
-//         if (room) {
-//             res.send({ code: 200, content: "SUCCESSFULLY", room: room })
-//         } else {
-//             res.send({ code: 401, content: "get list user fail" })
-//         }
-//     }).catch((err) => {
-//         res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
-//     })
-// }
 
 module.exports.deleteRoom = (req, res) => {
     Room.destroy({

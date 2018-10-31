@@ -10,7 +10,7 @@ function authentication($window, $http, $location) {
         return $window.localStorage['token']; 
     }; 
     var saveUser = function (user) {
-        window.localStorage['user'] = JSON.stringify(user);
+        $window.localStorage['user'] = JSON.stringify(user);
     }
     var getUser = function () {
         return $window.localStorage['user']

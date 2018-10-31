@@ -3,10 +3,15 @@
     <div class="container">
         <div class="col-md-8">
             <div class="board" id="xoTable">
-                
+
                 <div class="boardRow" ng-repeat="x in board " ng-init="parentIndex = $index">
                     <div class="boardCol" ng-repeat="y in board[0] track by $index">
-                        <div class="boardCell" ng-click='click(parentIndex, $index)'> </div>
+                        <div class="boardCell" ng-click='click(parentIndex, $index)'>
+                            <div class="boardCellCircle" ng-if="board[parentIndex][$index] == -1">
+                            </div>
+                            <div class="boardCellCross" ng-if="board[parentIndex][$index] == 1">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -21,7 +26,9 @@
                 </div>
             </div>
             <div class="timer-box">
-                <strong>Time: 30</strong>
+                <strong>Time:
+                    <p id="time"></p>
+                </strong>
             </div>
             <div class="chat-box">
                 <div class="panel with-nav-tabs panel-primary">
