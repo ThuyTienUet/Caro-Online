@@ -9,7 +9,7 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
     $scope.rooms = [];
     $scope.users = [];
 
-    $http.post('api/room/user/list', tmp)
+    $http.post('api/user/list', tmp)
         .then(function successCallback(data) {
             $scope.users = data.data.listUser;
         }, function errorCallback(err) {
@@ -30,6 +30,7 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
         }
         $http.post('api/room/new', room)
             .then(function successCallback(data) {
+                socket.emit('creatRoom', user.username);
                 $window.localStorage['room'] = user.username;
                 $location.path('/room')
 

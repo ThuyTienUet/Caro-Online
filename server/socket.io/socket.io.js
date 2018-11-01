@@ -2,10 +2,25 @@ let SOCKET_IO = {};
 let BOARD;
 let START = false;
 let WIN = '';
+// let CURRENT_PLAYER = 1;
+let PLAY;
+let PLAYER1 = {
+    username: '',
+    isClicked: false
+};
+let PLAYER2 = {
+    username: '',
+    isClicked: false
+};
 SOCKET_IO.connect = function (io) {
     SOCKET_IO.io = io;
     io.on('connection', function (socket) {
         SOCKET_IO.socket = socket;
+
+        socket.on('createRoom', function (data) {
+            PLAYER1.username = data;
+        })
+
         socket.on('joinRoom', function (data) {
             socket.join(data);
             if (BOARD == undefined) {
@@ -37,13 +52,21 @@ SOCKET_IO.connect = function (io) {
             }
         });
 
-        socket.on('startPlay', function () {
-            if (START == true) {
-                BOARD = Array.matrix(15, 0);
+        socket.on('startPlay', function (data) {
+            if ((PLAYER2.username == '') || (PLAYER2.username == data)) {
+                PLAYER2.username = data;
+                if (START == true) {
+                    BOARD = Array.matrix(15, 0);
+                }
+                START = true;
+                WIN = '';
+                socket.emit('initBoard', BOARD);
             }
-            START = true;
-            WIN = '';
-            socket.emit('initBoard', BOARD);
+
+        })
+
+        socket.on('quitRoom', function () {
+
         })
     })
 };

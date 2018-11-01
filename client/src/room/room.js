@@ -2,22 +2,11 @@ angular
     .module('caroOnline')
     .controller('roomCtrl', roomCtrl);
 
-function roomCtrl($scope, $window, $timeout) {
+function roomCtrl($scope, $window, $timeout, $http) {
     let roomName = $window.localStorage['room'];
-    let curPlayer = -1; //-1: O, 1: X
+    let username = $window.localStorage['user'];
 
-    // Array.matrix = function (n, init) {
-    //     let mat = [];
-    //     for (let i = 0; i < n; i++) {
-    //         let a = [];
-    //         for (let j = 0; j < n; j++) {
-    //             a[j] = init;
-    //         }
-    //         mat[i] = a;
-    //     }
-    //     return mat;
-    // }
-    // $scope.boardTmp = Array.matrix(15, 0);
+    let curPlayer = 1; 
 
     socket.emit('getBoard', '');
 
@@ -42,7 +31,18 @@ function roomCtrl($scope, $window, $timeout) {
     });
 
     $scope.start = function () {
-        socket.emit('startPlay', 'start');
+        socket.emit('startPlay', username);
+    }
+
+    $scope.quit = function () {
+        socket.emit('quitRoom', 'quit');
+        $http.post('/api/room/user/list', { roomName: roomName })
+            .then(function successCallback(data) {
+                // if (data.data.room.Users) 
+                
+            }, function errorCallback(err) {
+                console.log(err);
+            })
     }
 
     $scope.clickXO = function (row, col) {
@@ -52,7 +52,7 @@ function roomCtrl($scope, $window, $timeout) {
                     row: row,
                     col: col,
                     curPlayer: curPlayer,
-                    room: roomName
+                    room: roomName 
                 });
                 curPlayer *= -1;
             }

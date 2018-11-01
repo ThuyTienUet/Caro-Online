@@ -88,13 +88,32 @@ module.exports.addUser = (req, res) => {
 module.exports.deleteRoom = (req, res) => {
     Room.destroy({
         where: {
-            name: req.body.nameRoom
+            name: req.body.roomName
         }
     }).then((result) => {
         if (result == 1) {
             res.send({ code: 200, content: "SUCCESSFULLY" })
         } else {
             res.send({ code: 404, content: "NOT FOUND" })
+        }
+    }).catch((err) => {
+        res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
+    })
+}
+
+module.exports.getListUser = (req, res) => {
+    Room.findOne({
+        where: {
+            name: req.body.roomName
+        },
+        include: {
+            model: User
+        }
+    }).then((room) => {
+        if (room) {
+            res.send({ code: 200, content: "SUCCESSFULLY", room: room })
+        } else {
+            res.send({ code: 401, content: "get list user fail" })
         }
     }).catch((err) => {
         res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })

@@ -17,16 +17,16 @@ router.post('/room/list', (req, res) => {
 router.post('/room/user/new', (req, res) => {
     ctrlRoom.addUser(req, res);
 })
-
 router.post('/room/new', (req, res) => { 
     ctrlRoom.createRoom(req, res);
 })
 router.post('/room/user/list', (req, res) => {
-    ctrlUser.getListUser(req, res);
+    ctrlRoom.getListUser(req, res);
 })
 router.post('/room/delete', (req, res) => {
     ctrlRoom.deleteRoom(req, res);
 })
+
 router.post('/user/point/update', (req, res) => {
     ctrlUser.updatePoint(req, res);
 })
