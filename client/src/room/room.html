@@ -6,7 +6,7 @@
 
                 <div class="boardRow" ng-repeat="x in board " ng-init="parentIndex = $index">
                     <div class="boardCol" ng-repeat="y in board[0] track by $index">
-                        <div class="boardCell" ng-click='click(parentIndex, $index)'>
+                        <div class="boardCell" ng-click='clickXO(parentIndex, $index)'>
                             <div class="boardCellCircle" ng-if="board[parentIndex][$index] == -1">
                             </div>
                             <div class="boardCellCross" ng-if="board[parentIndex][$index] == 1">
@@ -17,6 +17,7 @@
             </div>
         </div>
         <div class="col-md-4">
+            <button ng-click="start()">start</button>
             <div class="player-box">
                 <div class="player">
                     <span class="glyphicon glyphicon-user"></span>&nbsp;player1
