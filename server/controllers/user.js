@@ -45,20 +45,31 @@ module.exports.register = (req, res) => {
 }
 
 module.exports.updatePoint = (req, res) => {
-    User.update(
-        {point: 4},
-        {where: {
+    User.findOne({
+        where: {
             username: req.body.username
-        }}
-    ).then(user => {
-        // if(user){
-        //     user.dataValues.point = 3;
-        // } else {
-        //     res.send({code: 404, content: "NOT FOUND"})
-        // }
+        }
+    }).then(user => {
+        if (user) {
+            User.update(
+                {point: user.point + 4},
+                {where: {
+                    username: req.body.username
+                }}
+            ).then(user => {
+                if(user){
+                    res.send({ code: 200, content: "SUCCESSFULLY", user: user})
+                } else {
+                    res.send({code: 404, content: "NOT FOUND"})
+                }
+            }).catch((err) => {
+                res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
+            })
+        } else {
+            res.send({code: 404, content: "NOT FOUND"})
+        }
     }).catch((err) => {
-        // res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
-        res.send({ code: 200, content: "SUCCESSFULLY"})
+        res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
     })
 }
 

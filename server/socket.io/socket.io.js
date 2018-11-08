@@ -1,72 +1,130 @@
 let SOCKET_IO = {};
-let BOARD;
-let START = false;
-let WIN = '';
-// let CURRENT_PLAYER = 1;
-let PLAY;
-let PLAYER1 = {
+let BOARD = [];
+let START = [];
+let WIN = [];
+let PLAYER1 = [];
+let PLAYER2 = [{
     username: '',
-    isClicked: false
-};
-let PLAYER2 = {
-    username: '',
-    isClicked: false
-};
+    isClicked: false,
+    curPlayer: -1
+}];
+
+let LIST_USER_OF_ROOM = [];
+
 SOCKET_IO.connect = function (io) {
     SOCKET_IO.io = io;
     io.on('connection', function (socket) {
-        SOCKET_IO.socket = socket;
+        console.log('connected');
 
-        socket.on('createRoom', function (data) {
-            PLAYER1.username = data;
-        })
+        SOCKET_IO.socket = socket;
+        // socket.on('createRoom', function (data) {
+        //     PLAYER1.username = data; 
+        // })
 
         socket.on('joinRoom', function (data) {
-            socket.join(data);
-            if (BOARD == undefined) {
-                BOARD = Array.matrix(15, 0);
+            if (!LIST_USER_OF_ROOM[data.room.id]) LIST_USER_OF_ROOM[data.room.id] = [];
+            LIST_USER_OF_ROOM[data.room.id].push(data.user.username);
+            if (BOARD[data.room.id] == undefined) {
+                BOARD[data.room.id] = Array.matrix(15, 0);
             }
+            socket.join(data.room.name);
         });
 
-        socket.on('getBoard', function () {
-            socket.emit('board', { board: BOARD, start: START })
+        socket.on('joined', function (data) {
+            io.in(data.name).emit('joinedRoom', { board: BOARD[data.id], start: START[data.id], listUser: LIST_USER_OF_ROOM[data.id] })
         })
 
         socket.on('click', function (data) {
-            if (START == true) {
-                BOARD[data.row][data.col] = data.curPlayer;
-                if (checkOnHorizontal(BOARD, data.row, data.col, data.curPlayer) === 1
-                    || checkOnVertically(BOARD, data.row, data.col, data.curPlayer) === 1
-                    || checkOnDiagonal(BOARD, data.row, data.col, data.curPlayer) === 1
-                    || checkOnDiagonalMain(BOARD, data.row, data.col, data.curPlayer) === 1) {
-                    if (data.curPlayer == -1) {
-                        io.in(data.room).emit('XO', { data: data, win: WIN, board: BOARD, start: START });
-                        WIN = 'O';
-                    } else {
-                        io.in(data.room).emit('XO', { data: data, win: WIN, board: BOARD, start: START });
-                        WIN = 'X';
-                    }
+            if (START[data.room.id] == true) {
+                let curPlayer;
+                if (data.user.username == PLAYER1[data.room.id].username) {
+                    curPlayer = PLAYER1[data.room.id].curPlayer;
                 } else {
-                    io.in(data.room).emit('XO', { data: data, win: WIN, board: BOARD, start: START });
+                    curPlayer = PLAYER2[data.room.id].curPlayer;
+                }
+                if (curPlayer == 1 && PLAYER1[data.room.id].isClicked == false) {
+                    BOARD[data.room.id][data.row][data.col] = curPlayer;
+                    if (checkOnHorizontal(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
+                        || checkOnVertically(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
+                        || checkOnDiagonal(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
+                        || checkOnDiagonalMain(BOARD[data.room.id], data.row, data.col, curPlayer) === 1) {
+                        if (data.curPlayer == -1) {
+                            io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
+                            WIN[data.room.id] = 'O';
+                        } else {
+                            io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
+                            WIN[data.room.id] = 'X';
+                        }
+                    } else {
+                        io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
+                    }
+                    PLAYER1[data.room.id].isClicked = true;
+                    PLAYER2[data.room.id].isClicked = false;
+                } else if (curPlayer == -1 && PLAYER2[data.room.id].isClicked == false) {
+                    BOARD[data.room.id][data.row][data.col] = curPlayer;
+                    if (checkOnHorizontal(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
+                        || checkOnVertically(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
+                        || checkOnDiagonal(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
+                        || checkOnDiagonalMain(BOARD[data.room.id], data.row, data.col, curPlayer) === 1) {
+                        if (data.curPlayer == -1) {
+                            io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
+                            WIN[data.room.id] = 'O';
+                        } else {
+                            io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
+                            WIN[data.room.id] = 'X';
+                        }
+                    } else {
+                        io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
+                    }
+                    PLAYER2[data.room.id].isClicked = true;
+                    PLAYER1[data.room.id].isClicked = false;
                 }
             }
         });
 
         socket.on('startPlay', function (data) {
-            if ((PLAYER2.username == '') || (PLAYER2.username == data)) {
-                PLAYER2.username = data;
-                if (START == true) {
-                    BOARD = Array.matrix(15, 0);
-                }
-                START = true;
-                WIN = '';
-                socket.emit('initBoard', BOARD);
+            PLAYER1[data.room.id] = {
+                username: '',
+                isClicked: false,
+                curPlayer: 1
             }
-
+            PLAYER2[data.room.id] = {
+                username: '',
+                isClicked: false,
+                curPlayer: -1
+            }
+            PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
+            if ((PLAYER2[data.room.id].username == '') || (PLAYER2[data.room.id].username == data.user.username)) {
+                PLAYER2[data.room.id].username = data.user.username;
+                if (START[data.room.id] == true) {
+                    BOARD[data.room.id] = Array.matrix(15, 0);
+                }
+                START[data.room.id] = true;
+                WIN[data.room.id] = '';
+                socket.emit('initBoard', BOARD[data.room.id]);
+            }
         })
 
-        socket.on('quitRoom', function () {
-
+        socket.on('quitRoom', function (data) {
+            if (LIST_USER_OF_ROOM[data.room.id]) {
+                LIST_USER_OF_ROOM[data.room.id].forEach(function (username, i) {
+                    if (username == data.user.username) {
+                        LIST_USER_OF_ROOM[data.room.id].splice(i, 1);
+                        if (!LIST_USER_OF_ROOM[data.room.id].length) {
+                            delete LIST_USER_OF_ROOM[data.room.id];
+                            io.emit('deleteRoom', data.room);
+                        } else {
+                            if (i == 0) {
+                                // PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[1]
+                                socket.emit('bossRoom', { name: data.user.username, listUser: LIST_USER_OF_ROOM[data.room.id] })
+                            } else {
+                                socket.emit('quitedRoom', LIST_USER_OF_ROOM[data.room.id]);
+                            }
+                        }
+                    }
+                })
+            }
+            socket.leave(data.room.name);
         })
     })
 };

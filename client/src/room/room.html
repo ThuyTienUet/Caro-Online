@@ -3,7 +3,6 @@
     <div class="container">
         <div class="col-md-8">
             <div class="board" id="xoTable">
-
                 <div class="boardRow" ng-repeat="x in board " ng-init="parentIndex = $index">
                     <div class="boardCol" ng-repeat="y in board[0] track by $index">
                         <div class="boardCell" ng-click='clickXO(parentIndex, $index)'>
@@ -74,7 +73,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="members">Members</div>
+                            <div class="tab-pane fade" id="members" ng-repeat="member in listUser track by $index">
+                                <p>{{ listUser[1] }} </p>
+                            </div>
                         </div>
                     </div>
                 </div>

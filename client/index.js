@@ -1,11 +1,11 @@
 angular
-    .module('caroOnline', ['angularModalService','ngRoute'])
+    .module('caroOnline', ['angularModalService', 'ngRoute', 'chatApp'])
     .config(['$routeProvider', function config($routeProvider) {
         $routeProvider
             .when('/', {
                 templateUrl: 'src/intro/intro.html',
                 controller: 'introCtrl'
-            }) 
+            })
             .when('/home', {
                 templateUrl: 'src/home/home.html',
                 controller: 'homeCtrl'
@@ -23,4 +23,11 @@ angular
                 controller: 'registerCtrl'
             })
             .otherwise({ redirectTo: '/' });
-    }])
+    }]).run(['$window', function ($window) {
+
+        // $window.onbeforeunload = function () {
+        //     $window.localStorage.removeItem('token');
+        //     $window.localStorage.removeItem('user');
+        //     $window.localStorage.removeItem('room');
+        // };
+    }]);

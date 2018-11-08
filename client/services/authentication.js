@@ -4,7 +4,7 @@ angular
 authentication.$inject = ['$window', '$http', '$location'];
 function authentication($window, $http, $location) {
     var saveToken = function (token) {
-        $window.localStorage['user-token'] = token;
+        $window.localStorage['token'] = token;
     };
     var getToken = function () {
         return $window.localStorage['token']; 
