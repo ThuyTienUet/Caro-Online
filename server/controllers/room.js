@@ -56,11 +56,9 @@ module.exports.createRoom = (req, res) => {
                         }).catch((err) => {
                             console.log(err);
                         })
-                    console.log(room);
-                    
-                    socket_io.io.emit('roomNew', room);
-                    socket_io.socket.join(room.name);
-                    res.send({ code: 200, content: "SUCCESSFULLY", room: { id: room.id, name: room.name, numUser: 1 } })
+                    socket_io.io.emit('roomNew', room.dataValues);
+                    socket_io.socket.join(room.dataValues.name);
+                    res.send({ code: 200, content: "SUCCESSFULLY", room: { id: room.dataValues.id, name: room.dataValues.name, numUser: 1 } })
                 })
             })
         } else {

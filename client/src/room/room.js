@@ -2,18 +2,28 @@ angular
     .module('caroOnline')
     .controller('roomCtrl', roomCtrl);
 
-function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $location) {
+function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $location, auth) {
 
-    let room = JSON.parse($window.localStorage['room']);
-    let user = JSON.parse($window.localStorage['user']);
+    if (auth.isLoggedIn() == false) {
+        $location.path('/')
+    }
+
+    let room = JSON.parse($window.sessionStorage['room']);
+    let user = JSON.parse(auth.getUser());
+
+
     $scope.listUser = [];
+    $scope.content = "";
+    $scope.listMess = [];
     let win = false;
     socket.emit('joined', room);
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
             $scope.listUser = data.listUser;
+            $scope.listMess = data.listMess;
             $scope.board = data.board;
+            console.log($scope.listUser);
         })
     })
 
@@ -63,7 +73,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         $http.post('/api/room/update', data)
             .then(function successCallback(data) {
                 $location.path('/home')
-                
             }, function errorCallback(err) {
                 console.log(err);
             })
@@ -100,4 +109,21 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
         })
     });
+
+    $scope.sendMess = function () {
+        socket.emit('sendMess', { user: user, room: room, content: $scope.content })
+    }
+
+    $scope.enterSendMess = function (e) {
+        if (e.keyCode == 13) {
+            socket.emit('sendMess', { user: user, room: room, content: $scope.content })
+        }
+    }
+
+    socket.on('sended', function (data) {
+        $timeout(function () {
+            $scope.listMess = data;
+            $scope.content = "";
+        })
+    })
 }

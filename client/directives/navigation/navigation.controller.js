@@ -9,7 +9,7 @@ function navigationCtrl($scope, $window, auth) {
     $scope.name = "";
 
     $scope.logout = function () {
-        $window.localStorage.removeItem('user-token');
+        $window.sessionStorage.removeItem('user-token');
         auth.logout();
         $scope.isLoggedIn = false;
         window.location.href;
@@ -18,7 +18,7 @@ function navigationCtrl($scope, $window, auth) {
     $scope.isLoggedIn = auth.isLoggedIn();
 
     if ($scope.isLoggedIn == true) {
-        let user = JSON.parse($window.localStorage['user']);
+        let user = JSON.parse($window.sessionStorage['user']);
         $scope.name = user.username;
     }
 

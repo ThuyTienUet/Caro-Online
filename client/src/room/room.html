@@ -49,24 +49,15 @@
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="chat-room">
                                 <div class="conservation">
-                                    <p>Hello</p>
-                                    <p>It's me</p>
-                                    <p>Caro Online</p>
-                                    <p>Welcome!</p>
-                                    <p>Hello</p>
-                                    <p>It's me</p>
-                                    <p>Caro Online</p>
-                                    <p>Welcome!</p>
-                                    <p>Hello</p>
-                                    <p>It's me</p>
-                                    <p>Caro Online</p>
-                                    <p>Welcome!</p>
+                                    <div ng-repeat="mess in listMess">
+                                        <p><strong>{{mess.sender}}: </strong> {{mess.content}}</p>
+                                       
+                                    </div>
                                 </div>
-
                                 <div class="type-msg">
                                     <div class="input-msg-write">
-                                        <input type="text" class="write-msg" placeholder="Type a message">
-                                        <button class="msg-send-btn" type="button">
+                                        <input type="text" class="write-msg" placeholder="Type a message" ng-keypress="enterSendMess($event)" ng-model="content">
+                                        <button class="msg-send-btn" type="button" ng-click="sendMess()">
                                             <span class="
                                                 glyphicon glyphicon-send"></span>
                                         </button>
@@ -74,7 +65,7 @@
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="members" ng-repeat="member in listUser track by $index">
-                                <p>{{ listUser[1] }} </p>
+                                <p>{{ member }} </p>
                             </div>
                         </div>
                     </div>

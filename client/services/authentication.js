@@ -4,16 +4,18 @@ angular
 authentication.$inject = ['$window', '$http', '$location'];
 function authentication($window, $http, $location) {
     var saveToken = function (token) {
-        $window.localStorage['token'] = token;
+        // $window.localStorage['token'] = token;
+        $window.sessionStorage['token'] = token;
     };
     var getToken = function () {
-        return $window.localStorage['token']; 
+        // return $window.localStorage['token']; 
+        return $window.sessionStorage['token']; 
     }; 
     var saveUser = function (user) {
-        $window.localStorage['user'] = JSON.stringify(user);
+        $window.sessionStorage['user'] = JSON.stringify(user); 
     }
     var getUser = function () {
-        return $window.localStorage['user']
+        return $window.sessionStorage['user']
     }
 
     var login = function (user, cb) {
@@ -36,8 +38,8 @@ function authentication($window, $http, $location) {
             });
     }
     var logout = function () {
-        $window.localStorage.removeItem('token');
-        $window.localStorage.removeItem('user');
+        $window.sessionStorage.removeItem('token');
+        $window.sessionStorage.removeItem('user');
         $location.path('/')
     };
     var isLoggedIn = function () {

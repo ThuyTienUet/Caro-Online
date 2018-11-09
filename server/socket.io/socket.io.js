@@ -11,16 +11,14 @@ let PLAYER2 = [{
 
 let LIST_USER_OF_ROOM = [];
 
+let LIST_MESSAGE = [];
 SOCKET_IO.connect = function (io) {
     SOCKET_IO.io = io;
     io.on('connection', function (socket) {
         console.log('connected');
 
         SOCKET_IO.socket = socket;
-        // socket.on('createRoom', function (data) {
-        //     PLAYER1.username = data; 
-        // })
-
+        
         socket.on('joinRoom', function (data) {
             if (!LIST_USER_OF_ROOM[data.room.id]) LIST_USER_OF_ROOM[data.room.id] = [];
             LIST_USER_OF_ROOM[data.room.id].push(data.user.username);
@@ -31,7 +29,7 @@ SOCKET_IO.connect = function (io) {
         });
 
         socket.on('joined', function (data) {
-            io.in(data.name).emit('joinedRoom', { board: BOARD[data.id], start: START[data.id], listUser: LIST_USER_OF_ROOM[data.id] })
+            io.in(data.name).emit('joinedRoom', { board: BOARD[data.id], start: START[data.id], listUser: LIST_USER_OF_ROOM[data.id], listMess: LIST_MESSAGE[data.id] })
         })
 
         socket.on('click', function (data) {
@@ -109,6 +107,8 @@ SOCKET_IO.connect = function (io) {
             if (LIST_USER_OF_ROOM[data.room.id]) {
                 LIST_USER_OF_ROOM[data.room.id].forEach(function (username, i) {
                     if (username == data.user.username) {
+                        console.log(username);
+                        
                         LIST_USER_OF_ROOM[data.room.id].splice(i, 1);
                         if (!LIST_USER_OF_ROOM[data.room.id].length) {
                             delete LIST_USER_OF_ROOM[data.room.id];
@@ -125,6 +125,16 @@ SOCKET_IO.connect = function (io) {
                 })
             }
             socket.leave(data.room.name);
+        })
+
+        socket.on('sendMess', function(data) {
+            let tmp = {
+                sender: data.user.username,
+                content: data.content
+            }
+            if (!LIST_MESSAGE[data.room.id]) LIST_MESSAGE[data.room.id] = [];
+            LIST_MESSAGE[data.room.id].push(tmp);
+            io.in(data.room.name).emit('sended', LIST_MESSAGE[data.room.id]);
         })
     })
 };
@@ -169,7 +179,7 @@ function checkOnHorizontal(board, cur_row, cur_col, cur_val) {
 //kiem tra theo hang doc
 function checkOnVertically(array_board, cur_row, cur_col, cur_val) {
     let count_up = 0;
-    let count_down = 0;
+    let count_down = 0; 
     for (let i = cur_row; i < 15; i++) {
         if (array_board[i][cur_col] === cur_val) {
             count_down++;

@@ -3,10 +3,15 @@ angular
     .controller('homeCtrl', homeCtrl);
 
 function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
+    if (auth.isLoggedIn() == false) {
+        $location.path('/')
+    }
+
     let tmp = {};
     $scope.rooms = [];
     $scope.users = [];
     let user = JSON.parse(auth.getUser());
+    
     
     socket.on('deleteRoom', function (data) {
         $http.post('/api/room/delete', data)
@@ -42,13 +47,11 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
         }
         $http.post('/api/room/new', room)
             .then(function successCallback(data) {
-                console.log(data);
-
                 socket.emit('joinRoom', {
                     room: data.data.room,
                     user: user
                 });
-                $window.localStorage['room'] = JSON.stringify(data.data.room);
+                $window.sessionStorage['room'] = JSON.stringify(data.data.room);
                 $location.path('/room')
 
             }, function errorCallback(err) {
@@ -69,7 +72,7 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
                     room: data.data.room,
                     user: user
                 });
-                $window.localStorage['room'] = JSON.stringify(data.data.room);
+                $window.sessionStorage['room'] = JSON.stringify(data.data.room);
                 $location.path('/room');
             }, function errorCallback(err) {
                 console.log(err);
