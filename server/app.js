@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 app.use('/api', routes);
 
-server.listen(3001, function () {
-	console.log('\n============================ LISTENING ON PORT 3001================================\n');
+server.listen(6001, function () {
+	console.log('\n============================ LISTENING ON PORT 6001================================\n');
 });
 
