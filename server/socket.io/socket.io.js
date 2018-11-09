@@ -127,11 +127,13 @@ SOCKET_IO.connect = function (io) {
                             } else if (username == PLAYER2[data.room.id].username ) {
                                 PLAYER2[data.room.id].username = "";
                             }
+                            BOARD[data.room.id] = Array.matrix(15, 0);
                             io.in(data.room.name).emit('quitedRoom', 
                                 {
                                     listUser: LIST_USER_OF_ROOM[data.room.id], 
                                     player1: PLAYER1[data.room.id], 
-                                    player2: PLAYER2[data.room.id]
+                                    player2: PLAYER2[data.room.id],
+                                    board: BOARD[data.room.id]
                                 });
                         }
                     }

@@ -20,8 +20,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
-            console.log(data);
-            
             $scope.listUser = data.listUser;
             $scope.listMess = data.listMess;
             $scope.board = data.board;
@@ -31,6 +29,8 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             } else {
                 $scope.player2 = {}
             }
+            console.log($scope.listUser);
+
         })
     })
 
@@ -54,14 +54,14 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         }
     }
 
-    //     $rootScope.$on('$locationChangeSuccess', function() {
-    //         $rootScope.actualLocation = $location.path();
-    //     });        
+    // $rootScope.$on('$locationChangeSuccess', function () {
+    //     $rootScope.actualLocation = $location.path();
+    // });
 
-    //    $rootScope.$watch(function () {return $location.path()}, function (newLocation, oldLocation) {
-    //         if($rootScope.actualLocation === newLocation) {
-    //             socket.emit('quitRoom', { room: room, user: user});
-    //         }
+    // $rootScope.$watch(function () { return $location.path() }, function (newLocation, oldLocation) {
+    //     if ($rootScope.actualLocation === newLocation) {
+    //         socket.emit('quitRoom', { room: room, user: user });
+    //     }
     // });
 
     $scope.quit = function () {
@@ -71,11 +71,10 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     socket.on('quitedRoom', function (data) {
         $timeout(function () {
-            console.log(data);
-            
             $scope.listUser = data.listUser;
             $scope.player1 = data.player1;
-            $scope.player2 = data.player2
+            $scope.player2 = data.player2;
+            $scope.board = data.board;
         })
     })
 

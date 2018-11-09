@@ -27,11 +27,11 @@
                     <span class="glyphicon glyphicon-user"></span>&nbsp;{{ player2.username }}
                 </div>
             </div>
-            <div class="timer-box">
+            <!-- <div class="timer-box">
                 <strong>Time:
                     <p id="time"></p>
                 </strong>
-            </div>
+            </div> -->
             <div class="chat-box">
                 <div class="panel with-nav-tabs panel-primary">
                     <div class="panel-heading">
@@ -51,7 +51,7 @@
                                 <div class="conservation">
                                     <div ng-repeat="mess in listMess">
                                         <p>
-                                            <strong>{{mess.sender}}: </strong> {{mess.content}}</p>
+                                            <strong>{{ mess.sender }}: </strong> {{ mess.content }}</p>
 
                                     </div>
                                 </div>
@@ -65,8 +65,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="members" ng-repeat="member in listUser track by $index">
-                                <p>{{ member }} </p>
+                            <div class="tab-pane fade" id="members">
+                                <div ng-repeat="member in listUser track by $index">
+                                    <p>{{ member }} </p>
+                                </div>
                             </div>
                         </div>
                     </div>
