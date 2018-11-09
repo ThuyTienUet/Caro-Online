@@ -20,28 +20,38 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
+            console.log(data);
+            
             $scope.listUser = data.listUser;
             $scope.listMess = data.listMess;
             $scope.board = data.board;
-            console.log($scope.listUser);
+            $scope.player1 = data.player1;
+            if (data.player2) {
+                $scope.player2 = data.player2;
+            } else {
+                $scope.player2 = {}
+            }
         })
     })
 
     socket.on('initBoard', function (data) {
         $timeout(function () {
-            $scope.board = data
+            $scope.board = data.board;
+            $scope.player2 = data.player2;
         })
     });
 
     $scope.start = function () {
-        socket.emit('startPlay', { user: user, room: room });
-        var timeleft = 30;
-        var downloadTimer = setInterval(function () {
-            document.getElementById("time").innerHTML = timeleft--;
-            if (timeleft < 0) {
-                timeleft = 30;
-            }
-        }, 1000);
+        if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
+            socket.emit('startPlay', { user: user, room: room });
+            var timeleft = 30;
+            var downloadTimer = setInterval(function () {
+                document.getElementById("time").innerHTML = timeleft--;
+                if (timeleft < 0) {
+                    timeleft = 30;
+                }
+            }, 1000);
+        }
     }
 
     //     $rootScope.$on('$locationChangeSuccess', function() {
@@ -56,26 +66,21 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     $scope.quit = function () {
         socket.emit('quitRoom', { room: room, user: user });
+        $location.path('/home')
     }
 
     socket.on('quitedRoom', function (data) {
         $timeout(function () {
-            $scope.listUser = data;
+            console.log(data);
+            
+            $scope.listUser = data.listUser;
+            $scope.player1 = data.player1;
+            $scope.player2 = data.player2
         })
-        $location.path('/home')
     })
 
     socket.on('deleteRoom', function () {
         $location.path('/home')
-    })
-
-    socket.on('bossRoom', function (data) {
-        $http.post('/api/room/update', data)
-            .then(function successCallback(data) {
-                $location.path('/home')
-            }, function errorCallback(err) {
-                console.log(err);
-            })
     })
 
     $scope.clickXO = function (row, col) {
@@ -99,6 +104,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
                 $scope.board = data.board;
             }
             else {
+                $scope.board = data.board;
                 win = true;
                 $http.post('/api/user/point/update', { username: data.user.username })
                     .then(function successCallback(data) {

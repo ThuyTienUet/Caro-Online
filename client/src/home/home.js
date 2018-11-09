@@ -11,15 +11,15 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
     $scope.rooms = [];
     $scope.users = [];
     let user = JSON.parse(auth.getUser());
-    
-    
+
+
     socket.on('deleteRoom', function (data) {
         $http.post('/api/room/delete', data)
             .then(function successCallback(dt) {
                 $scope.rooms.forEach(function (room, i) {
                     if (room.id == data.id) {
                         $scope.rooms.splice(i, 1);
-                        $window.location.reload();
+                        // $window.location.reload();
                     }
                 })
             }, function errorCallback(err) {
@@ -78,6 +78,4 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout) {
                 console.log(err);
             })
     }
-
-
 }
