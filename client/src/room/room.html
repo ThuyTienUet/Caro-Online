@@ -1,0 +1,76 @@
+<navigation></navigation>
+<div class="content">
+    <div class="container">
+        <div class="col-md-8">
+            <div class="board" id="xoTable">
+                <div class="boardRow" ng-repeat="x in board " ng-init="parentIndex = $index">
+                    <div class="boardCol" ng-repeat="y in board[0] track by $index">
+                        <div class="boardCell" ng-click='clickXO(parentIndex, $index)'>
+                            <div class="boardCellCircle" ng-if="board[parentIndex][$index] == -1">
+                            </div>
+                            <div class="boardCellCross" ng-if="board[parentIndex][$index] == 1">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button ng-click="start()">start</button>
+            <button ng-click="quit()">quit</button>
+
+            <div class="player-box">
+                <div class="player">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;player1
+                </div>
+                <div class="player">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;player2
+                </div>
+            </div>
+            <div class="timer-box">
+                <strong>Time:
+                    <p id="time"></p>
+                </strong>
+            </div>
+            <div class="chat-box">
+                <div class="panel with-nav-tabs panel-primary">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+
+                            <li class="active">
+                                <a data-target="#chat-room" data-toggle="tab" style="cursor: pointer;">Chat</a>
+                            </li>
+                            <li>
+                                <a data-target="#members" data-toggle="tab" style="cursor: pointer;">Members</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="chat-room">
+                                <div class="conservation">
+                                    <div ng-repeat="mess in listMess">
+                                        <p><strong>{{mess.sender}}: </strong> {{mess.content}}</p>
+                                       
+                                    </div>
+                                </div>
+                                <div class="type-msg">
+                                    <div class="input-msg-write">
+                                        <input type="text" class="write-msg" placeholder="Type a message" ng-keypress="enterSendMess($event)" ng-model="content">
+                                        <button class="msg-send-btn" type="button" ng-click="sendMess()">
+                                            <span class="
+                                                glyphicon glyphicon-send"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="members" ng-repeat="member in listUser track by $index">
+                                <p>{{ member }} </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
