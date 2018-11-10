@@ -6,7 +6,7 @@
         <div id="navbar-main" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li ng-hide="isLoggedIn">
-                    <a href="/#!/login">Login</a>
+                    <a href="/#!/login">Login&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
                 </li>
                 <li ng-show="isLoggedIn" class="dropdown">
                     <a href="" class="dropdown-toggle" data-toggle="dropdown">{{name}}
@@ -14,7 +14,7 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="" ng-click="logout()">Logout</a>
+                            <a href="" ng-click="logout()">Log out&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
                         </li>
                     </ul>
                 </li>

@@ -248,6 +248,7 @@ div.conservation {
     padding-left: 5%;
     color: #fff;
     text-decoration: none;
+    font-family: 'Poppins', sans-serif;
 }
 
 .box a:hover {
@@ -272,4 +273,23 @@ img {
 .form-group a {
     color: #370f3a;
     text-decoration: none;
+}
+
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.open>a:focus,
+.navbar-inverse .navbar-nav>.open>a:hover {
+    color: midnightblue;
+    background-color: cornflowerblue;
+}
+
+.dropdown-menu>li>a {
+    text-align: center;
+}
+
+.navbar-nav>li>.dropdown-menu {
+    min-width: 100px;
+}
+
+.input-msg-write input {
+    color: #fff;
 }
