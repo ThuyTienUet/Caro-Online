@@ -16,7 +16,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.content = "";
     $scope.listMess = [];
     let win = false;
-    socket.emit('joined', room);
+    socket.emit('joined', { room: room, user: user});
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
@@ -29,8 +29,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             } else {
                 $scope.player2 = {}
             }
-            console.log($scope.listUser);
-
         })
     })
 

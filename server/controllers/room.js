@@ -42,24 +42,12 @@ module.exports.createRoom = (req, res) => {
         }
     }).then((room) => {
         if (room == null) {
-            User.findOne({
-                where: {
-                    username: req.body.name
-                }
-            }).then(user => {
-                Room.create({
-                    name: req.body.name
-                }).then((room) => {
-                    room.addUsers([user.dataValues.id])
-                        .then((result) => {
-                            // console.log('add user', result);
-                        }).catch((err) => {
-                            console.log(err);
-                        })
-                    socket_io.io.emit('roomNew', room.dataValues);
-                    socket_io.socket.join(room.dataValues.name);
-                    res.send({ code: 200, content: "SUCCESSFULLY", room: { id: room.dataValues.id, name: room.dataValues.name, numUser: 1 } })
-                })
+            Room.create({
+                name: req.body.name
+            }).then((room) => {  
+                socket_io.io.emit('roomNew', room.dataValues);
+                socket_io.socket.join(room.dataValues.name);
+                res.send({ code: 200, content: "SUCCESSFULLY", room: { id: room.dataValues.id, name: room.dataValues.name, numUser: 1 } })
             })
         } else {
             res.send({ code: 401, content: "CREATE ROOM FAIL" })

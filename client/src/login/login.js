@@ -4,7 +4,7 @@ angular
 	.controller('loginCtrl', loginCtrl);
 
 //loginCtrl.$inject = ['auth', '$http'];
-function loginCtrl($location, auth, $http, $scope) {
+function loginCtrl($location, auth, $http, $scope, $window) {
 	$scope.user = {
 		username: "",
 		password: ""
@@ -31,4 +31,13 @@ function loginCtrl($location, auth, $http, $scope) {
 				}
 			})
 	};
+	let checkbox = false;
+	$scope.rememberMe = function () {
+		checkbox = !checkbox;
+		if (checkbox == true)	{
+			if (!$window.localStorage['user']) $window.localStorage['user'] = [];
+			// $window.localStorage.removeItem('user');
+			$window.localStorage['user'].push(JSON.stringify($scope.user));
+		}			
+	}
 }

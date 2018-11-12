@@ -19,7 +19,27 @@ SOCKET_IO.connect = function (io) {
 
         SOCKET_IO.socket = socket;
 
-        socket.on('joinRoom', function (data) {
+        // socket.on('joinRoom', function (data) {
+        //     if (!LIST_USER_OF_ROOM[data.room.id]) LIST_USER_OF_ROOM[data.room.id] = [];
+        //     LIST_USER_OF_ROOM[data.room.id].push(data.user.username);
+        //     if (BOARD[data.room.id] == undefined) {
+        //         BOARD[data.room.id] = Array.matrix(15, 0);
+        //     }
+        //     PLAYER1[data.room.id] = {
+        //         username: '',
+        //         isClicked: false,
+        //         curPlayer: 1
+        //     }
+        //     PLAYER2[data.room.id] = {
+        //         username: '',
+        //         isClicked: true,
+        //         curPlayer: -1
+        //     }
+        //     PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
+        //     socket.join(data.room.name);
+        // });
+
+        socket.on('joined', function (data) {
             if (!LIST_USER_OF_ROOM[data.room.id]) LIST_USER_OF_ROOM[data.room.id] = [];
             LIST_USER_OF_ROOM[data.room.id].push(data.user.username);
             if (BOARD[data.room.id] == undefined) {
@@ -37,17 +57,14 @@ SOCKET_IO.connect = function (io) {
             }
             PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
             socket.join(data.room.name);
-        });
-
-        socket.on('joined', function (data) {
-            io.in(data.name).emit('joinedRoom',
+            io.in(data.room.name).emit('joinedRoom',
                 {
-                    board: BOARD[data.id],
-                    start: START[data.id],
-                    listUser: LIST_USER_OF_ROOM[data.id],
-                    listMess: LIST_MESSAGE[data.id],
-                    player1: PLAYER1[data.id],
-                    player2: PLAYER2[data.id]
+                    board: BOARD[data.room.id],
+                    start: START[data.room.id],
+                    listUser: LIST_USER_OF_ROOM[data.room.id],
+                    listMess: LIST_MESSAGE[data.room.id],
+                    player1: PLAYER1[data.room.id],
+                    player2: PLAYER2[data.room.id]
                 })
         })
 
@@ -115,7 +132,7 @@ SOCKET_IO.connect = function (io) {
                 LIST_USER_OF_ROOM[data.room.id].forEach(function (username, i) {
                     if (username == data.user.username) {
                         console.log(username);
-                        
+
                         LIST_USER_OF_ROOM[data.room.id].splice(i, 1);
                         if (!LIST_USER_OF_ROOM[data.room.id].length) {
                             delete LIST_USER_OF_ROOM[data.room.id];
@@ -124,14 +141,14 @@ SOCKET_IO.connect = function (io) {
                             if (i == 0) {
                                 PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
                                 PLAYER2[data.room.id].username = "";
-                            } else if (username == PLAYER2[data.room.id].username ) {
+                            } else if (username == PLAYER2[data.room.id].username) {
                                 PLAYER2[data.room.id].username = "";
                             }
                             BOARD[data.room.id] = Array.matrix(15, 0);
-                            io.in(data.room.name).emit('quitedRoom', 
+                            io.in(data.room.name).emit('quitedRoom',
                                 {
-                                    listUser: LIST_USER_OF_ROOM[data.room.id], 
-                                    player1: PLAYER1[data.room.id], 
+                                    listUser: LIST_USER_OF_ROOM[data.room.id],
+                                    player1: PLAYER1[data.room.id],
                                     player2: PLAYER2[data.room.id],
                                     board: BOARD[data.room.id]
                                 });
