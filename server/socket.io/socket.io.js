@@ -76,17 +76,12 @@ SOCKET_IO.connect = function (io) {
                 } else {
                     curPlayer = PLAYER2[data.room.id].curPlayer;
                 }
-                console.log(PLAYER1[data.room.id]);
-                console.log(PLAYER2[data.room.id]);
-
-
                 if (curPlayer == 1 && PLAYER1[data.room.id].isClicked == false) {
                     BOARD[data.room.id][data.row][data.col] = curPlayer;
                     if (checkOnHorizontal(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
                         || checkOnVertically(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
                         || checkOnDiagonal(BOARD[data.room.id], data.row, data.col, curPlayer) === 1
                         || checkOnDiagonalMain(BOARD[data.room.id], data.row, data.col, curPlayer) === 1) {
-
                         WIN[data.room.id] = 'X';
                         io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
 

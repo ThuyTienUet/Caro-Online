@@ -106,6 +106,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
                 $http.post('/api/user/point/update', { username: data.user.username })
                     .then(function successCallback(data) {
                         console.log(data);
+                        alert('WIN');
                     }, function errorCallback(err) {
                         console.log(err);
                     })
