@@ -103,10 +103,13 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             else {
                 $scope.board = data.board;
                 win = true;
-                $http.post('/api/user/point/update', { username: data.user.username })
+                let user = {
+                    username: data.user.username
+                }
+                $http.post('/api/user/point/update', user)
                     .then(function successCallback(data) {
                         console.log(data);
-                        alert('WIN');
+                        alert(user.username + ' WIN.');
                     }, function errorCallback(err) {
                         console.log(err);
                     })
