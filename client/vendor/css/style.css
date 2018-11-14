@@ -293,3 +293,11 @@ img {
 .input-msg-write input {
     color: #fff;
 }
+
+.start, .quit {
+    margin: 0 10px;
+}
+
+.control-button {
+    padding: 0 20% 0 28%;
+}
