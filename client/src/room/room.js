@@ -7,16 +7,14 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     if (auth.isLoggedIn() == false) {
         $location.path('/')
     }
-
     let room = JSON.parse($window.sessionStorage['room']);
     let user = JSON.parse(auth.getUser());
-
 
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
     let win = false;
-    socket.emit('joined', { room: room, user: user});
+    socket.emit('joined', { room: room, user: user });
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
@@ -52,15 +50,18 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         }
     }
 
-    // $rootScope.$on('$locationChangeSuccess', function () {
-    //     $rootScope.actualLocation = $location.path();
-    // });
+    $rootScope.$on('$locationChangeSuccess', function () {
+        $rootScope.actualLocation = $location.path();
+    });
 
-    // $rootScope.$watch(function () { return $location.path() }, function (newLocation, oldLocation) {
-    //     if ($rootScope.actualLocation === newLocation) {
-    //         socket.emit('quitRoom', { room: room, user: user });
-    //     }
-    // });
+    $rootScope.$watch(function () { return $location.path() }, function (newLocation, oldLocation) {
+        if ($rootScope.actualLocation === newLocation) {
+            if (newLocation == '/home' && oldLocation == '/room') {
+                socket.emit('quitRoom', { room: room, user: user });
+                console.log(newLocation, oldLocation);
+            }
+        }
+    });
 
     $scope.quit = function () {
         socket.emit('quitRoom', { room: room, user: user });

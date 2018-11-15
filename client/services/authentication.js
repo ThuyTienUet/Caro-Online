@@ -9,17 +9,21 @@ function authentication($window, $http, $location) {
     };
     var getToken = function () {
         // return $window.localStorage['token']; 
-        return $window.sessionStorage['token']; 
-    }; 
+        return $window.sessionStorage['token'];
+    };
     var saveUser = function (user) {
-        $window.sessionStorage['user'] = JSON.stringify(user); 
+        $window.sessionStorage['user'] = JSON.stringify(user);
     }
     var getUser = function () {
-        return $window.sessionStorage['user']
+        if (!$window.localStorage['user']) {
+            return $window.sessionStorage['user']
+        } else {
+            return $window.localStorage['user']; 
+        }
     }
 
     var login = function (user, cb) {
-        return $http.post('/api/login', user) 
+        return $http.post('/api/login', user)
             .then(function successCallback(data) {
                 saveToken(data.data.user.token);
                 saveUser(data.data.user.user);
@@ -29,7 +33,7 @@ function authentication($window, $http, $location) {
             });
     };
 
-    var register = function(user, callback) {
+    var register = function (user, callback) {
         return $http.post('/api/register', user)
             .then(function successCallback(data) {
                 callback(data.data);
@@ -40,6 +44,7 @@ function authentication($window, $http, $location) {
     var logout = function () {
         $window.sessionStorage.removeItem('token');
         $window.sessionStorage.removeItem('user');
+        $window.localStorage.removeItem('user');
         $location.path('/')
     };
     var isLoggedIn = function () {

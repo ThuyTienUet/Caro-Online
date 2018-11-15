@@ -3,10 +3,8 @@
     <div>
         <button class="btn btn-primary" ng-click="addRoom()">New Room</button>
     </div>
-
     <a href="/#!/room" ng-click="onClick()"></a>
     <div ng-repeat="x in user">
-
     </div>
     <div class="row list-group col-xs-12 col-md-8">
         <div class="header">
@@ -23,10 +21,11 @@
             <h3>Ranking</h3>
         </div>
         <ul class="row list-group">
-            <li class="list-group-item" ng-repeat="user in users">
-                <h5>{{ user.username }} <span class="badge" style="float: right">{{ user.point }} </span> </h5> 
+            <li class="list-group-item" ng-repeat="user in users | orderBy: '-point'">
+                <h5>{{ user.username }}
+                    <span class="badge" style="float: right">{{ user.point }} </span>
+                </h5>
             </li>
     </div>
 </div>
-<!-- <chat-module></chat-module> -->
 </div>

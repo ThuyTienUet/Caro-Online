@@ -23,11 +23,4 @@ angular
                 controller: 'registerCtrl'
             })
             .otherwise({ redirectTo: '/' });
-    }]).run(['$window', function ($window) {
-
-        // $window.onbeforeunload = function () {
-        //     $window.localStorage.removeItem('token');
-        //     $window.localStorage.removeItem('user');
-        //     $window.localStorage.removeItem('room');
-        // };
-    }]);
+    }])

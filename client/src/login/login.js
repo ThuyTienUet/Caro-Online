@@ -3,7 +3,6 @@ angular
 	.module('caroOnline')
 	.controller('loginCtrl', loginCtrl);
 
-//loginCtrl.$inject = ['auth', '$http'];
 function loginCtrl($location, auth, $http, $scope, $window) {
 	$scope.user = {
 		username: "",
@@ -34,10 +33,8 @@ function loginCtrl($location, auth, $http, $scope, $window) {
 	let checkbox = false;
 	$scope.rememberMe = function () {
 		checkbox = !checkbox;
-		if (checkbox == true)	{
-			if (!$window.localStorage['user']) $window.localStorage['user'] = [];
-			// $window.localStorage.removeItem('user');
-			$window.localStorage['user'].push(JSON.stringify($scope.user));
-		}			
+		if (checkbox == true) {
+			$window.localStorage['user'] = JSON.stringify($scope.user);
+		}
 	}
 }

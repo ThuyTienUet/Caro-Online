@@ -1,7 +1,7 @@
 {
     "name": "CaroOnline",
     "scripts": {
-        "start": "node app.js"
+        "start": "node server/app.js"
     },
     "dependencies": {
         "config": "^2.0.1",
