@@ -16,9 +16,14 @@
             </div>
         </div>
         <div class="col-md-4">
-            <button ng-click="start()">start</button>
-            <button ng-click="quit()">quit</button>
-
+            <div class="row control-button">
+                <button class="btn btn-success start " ng-click="start()">
+                    <span class="glyphicon glyphicon-play"></span>&nbsp;Start
+                </button>
+                <button class="btn btn-danger quit" ng-click="quit()" value="Quit">
+                    <span class="glyphicon glyphicon-remove"></span>&nbsp;Quit
+                </button>
+            </div>
             <div class="player-box">
                 <div class="player">
                     <span class="glyphicon glyphicon-user"></span>&nbsp;{{ player1.username }}
@@ -57,7 +62,8 @@
                                 </div>
                                 <div class="type-msg">
                                     <div class="input-msg-write">
-                                        <input type="text" class="write-msg" placeholder="Type a message" ng-keypress="enterSendMess($event)" ng-model="content">
+                                        <input type="text" class="write-msg" placeholder="Type a message" ng-keypress="enterSendMess($event)"
+                                            ng-model="content">
                                         <button class="msg-send-btn" type="button" ng-click="sendMess()">
                                             <span class="
                                                 glyphicon glyphicon-send"></span>
