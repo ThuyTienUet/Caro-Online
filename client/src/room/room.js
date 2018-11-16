@@ -14,6 +14,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.content = "";
     $scope.listMess = [];
     let win = false;
+    
     socket.emit('joined', { room: room, user: user });
 
     socket.on('joinedRoom', function (data) {

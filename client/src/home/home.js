@@ -57,17 +57,12 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
         })
     })
 
-    $scope.joinRoom = function (roomName) {
-        $http.post('/api/room/info', { name: roomName })
-            .then(function successCallback(data) {
-                socket.emit('joinRoom', {
-                    room: data.data.room,
-                    user: user
-                });
-                $window.sessionStorage['room'] = JSON.stringify(data.data.room);
-                $location.path('/room');
-            }, function errorCallback(err) {
-                console.log(err);
-            })
-    }
+    $scope.joinRoom = function (roomName, roomId) {
+        let room = {
+            name: roomName,
+            id: roomId
+        }
+        $window.sessionStorage['room'] = JSON.stringify(room);
+        $location.path('/room')
+    } 
 }
