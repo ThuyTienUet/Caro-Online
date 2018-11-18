@@ -18,15 +18,7 @@ function navigationCtrl($scope, $window, auth) {
     $scope.isLoggedIn = auth.isLoggedIn();
 
     if ($scope.isLoggedIn == true) {
-        let user = JSON.parse($window.sessionStorage['user']);
+        let user = JSON.parse(auth.getUser());
         $scope.name = user.username;
-    }
-
-    $scope.doLogin = function () {
-        
-    }
-
-    $scope.home = function () {
-        window.location.href;
     }
 }

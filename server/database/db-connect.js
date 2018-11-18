@@ -17,7 +17,7 @@ db.Room.hasMany(db.User, {
     foreignkey: {
         name: 'idRoom',
         allowNull: true
-    }
+    } 
 })
 
 sequelize.sync().then(()=>{

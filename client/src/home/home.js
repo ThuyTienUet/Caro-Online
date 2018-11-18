@@ -19,7 +19,6 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
                 $scope.rooms.forEach(function (room, i) {
                     if (room.id == data.id) {
                         $scope.rooms.splice(i, 1);
-                        // $window.location.reload();
                     }
                 })
             }, function errorCallback(err) {
@@ -30,6 +29,8 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     $http.post('/api/user/list', tmp)
         .then(function successCallback(data) {
             $scope.users = data.data.listUser;
+            console.log($scope.users);
+            
         }, function errorCallback(err) {
             console.log(err);
         })
@@ -43,13 +44,7 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
 
     $scope.addRoom = function () {
         dialog.nameRoom(function (result) {
-            console.log(JSON.stringify(result));
-            
             if (result) {
-                // socket.emit('joinRoom', {
-                //     room: result,
-                //     user: user
-                // });
                 $window.sessionStorage['room'] = JSON.stringify(result);
                 $location.path('/room')
             }
@@ -62,17 +57,12 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
         })
     })
 
-    $scope.joinRoom = function (roomName) {
-        $http.post('/api/room/info', { name: roomName })
-            .then(function successCallback(data) {
-                socket.emit('joinRoom', {
-                    room: data.data.room,
-                    user: user
-                });
-                $window.sessionStorage['room'] = JSON.stringify(data.data.room);
-                $location.path('/room');
-            }, function errorCallback(err) {
-                console.log(err);
-            })
-    }
+    $scope.joinRoom = function (roomName, roomId) {
+        let room = {
+            name: roomName,
+            id: roomId
+        }
+        $window.sessionStorage['room'] = JSON.stringify(room);
+        $location.path('/room')
+    } 
 }

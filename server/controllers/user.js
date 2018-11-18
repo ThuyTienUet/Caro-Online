@@ -75,12 +75,27 @@ module.exports.updatePoint = (req, res) => {
 
 module.exports.getListUser = (req, res) => {
     User.findAll({
-
     }).then(list => {
         if(list) {
             res.send({ code: 200, content: "SUCCESSFULLY", listUser: list })
         } else {
             res.send({code: 404, content: "NOT FOUND"})
+        }
+    }).catch((err) => {
+        res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })
+    })
+}
+
+module.exports.deleteUser = (req, res) => {
+    User.destroy({
+        where: {
+            id: req.body.id
+        }
+    }).then((result) => {
+        if (result == 1) {
+            res.send({ code: 200, content: "SUCCESSFULLY" })
+        } else {
+            res.send({ code: 404, content: "NOT FOUND" })
         }
     }).catch((err) => {
         res.send({ code: 401, content: "SOMETHING WENT WRONG: " + err })

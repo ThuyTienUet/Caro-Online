@@ -11,26 +11,14 @@ router.post('/register', (req, res) => {
     ctrlUser.register(req, res);
 })
 
-router.post('/room/info', (req, res) => {
-    ctrlRoom.getRoom(req, res);
-})
 router.post('/room/list', (req, res) => {
     ctrlRoom.getListRoom(req, res);
-})
-router.post('/room/user/new', (req, res) => { 
-    ctrlRoom.addUser(req, res);
 })
 router.post('/room/new', (req, res) => { 
     ctrlRoom.createRoom(req, res);
 })
-router.post('/room/user/list', (req, res) => {
-    ctrlRoom.getListUser(req, res);
-})
 router.post('/room/delete', (req, res) => {
     ctrlRoom.deleteRoom(req, res);
-})
-router.post('/room/update', (req, res) => {
-    ctrlRoom.updateRoom(req, res);
 })
 
 router.post('/user/point/update', (req, res) => {
@@ -38,5 +26,8 @@ router.post('/user/point/update', (req, res) => {
 })
 router.post('/user/list', (req, res) => {
     ctrlUser.getListUser(req, res);
+})
+router.post('/user/delete', (req, res) => {
+    ctrlUser.deleteUser(req, res);
 })
 module.exports = router;
