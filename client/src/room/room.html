@@ -26,10 +26,10 @@
             </div>
             <div class="player-box">
                 <div class="player">
-                    <span class="glyphicon glyphicon-user"></span>&nbsp;{{ player1.username }}
+                    <i class="far fa-circle"></i>&nbsp;{{ player1.username }}
                 </div>
                 <div class="player">
-                    <span class="glyphicon glyphicon-user"></span>&nbsp;{{ player2.username }}
+                    <i class="fas fa-times"></i>&nbsp;{{ player2.username }}
                 </div>
             </div>
             <!-- <div class="timer-box">
@@ -41,12 +41,14 @@
                 <div class="panel with-nav-tabs panel-primary">
                     <div class="panel-heading">
                         <ul class="nav nav-tabs">
-
                             <li class="active">
                                 <a data-target="#chat-room" data-toggle="tab" style="cursor: pointer;">Chat</a>
                             </li>
                             <li>
                                 <a data-target="#members" data-toggle="tab" style="cursor: pointer;">Members</a>
+                            </li>
+                            <li>
+                              <a data-target="#rule" data-toggle="tab" style="cursor: pointer;">Rule</a>
                             </li>
                         </ul>
                     </div>
@@ -73,8 +75,18 @@
                             </div>
                             <div class="tab-pane fade" id="members">
                                 <div ng-repeat="member in listUser track by $index">
-                                    <p>{{ member }} </p>
+                                    <p>{{ member }} <button type="button" class="close" ng-click="onCancelButtonClicked()" aria-hidden="true" ng-hide="">
+                                        &times;
+                                    </button></p>
                                 </div>
+                            </div>
+                            <div class="tab-pane fade" id="rule">
+                              <div style="text-align: left;">
+                                <ul>
+                                  <li>Chủ phòng: X.</li>
+                                  <li>Khách chọn "Start" để xác nhận chơi.</li>
+                                </ul>
+                              </div>
                             </div>
                         </div>
                     </div>

@@ -301,3 +301,22 @@ img {
 .control-button {
     padding: 0 20% 0 28%;
 }
+
+.list-group {
+    padding: 0 5%;
+}
+
+.fa, .far, .fas {
+    font-size: 35px;
+}
+
+div.list-group-item, li.list-group-item {
+    width: 80%;
+    margin: auto;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.close {
+    line-height: 0.59;
+}
