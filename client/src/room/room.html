@@ -15,9 +15,9 @@
                 </div>
             </div>
 
-            <!-- <div class="notification animated zoomInUp" ng-show="win">
-							<p>You win! Congratulation.</p>
-						</div> -->
+            <!-- <div class="notification animated zoomInUp">
+                <div class="noti-text animated flash">You win! Congratulation.</div>
+            </div> -->
         </div>
         <div class="col-md-4">
             <div class="row control-button">
@@ -52,7 +52,7 @@
                                 <a data-target="#members" data-toggle="tab" style="cursor: pointer;">Members</a>
                             </li>
                             <li>
-                              <a data-target="#rule" data-toggle="tab" style="cursor: pointer;">Rule</a>
+                                <a data-target="#rule" data-toggle="tab" style="cursor: pointer;">Rule</a>
                             </li>
                         </ul>
                     </div>
@@ -77,20 +77,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="members">
+                            <div class="tab-pane fade list-member" id="members">
                                 <div ng-repeat="member in listUser track by $index">
-                                    <p>{{ member }} <button type="button" class="close" ng-click="onCancelButtonClicked()" aria-hidden="true" ng-hide="">
-                                        &times;
-                                    </button></p>
+                                    <p>{{ member }} <button type="button" class="close" ng-click="onCancelButtonClicked()"
+                                            aria-hidden="true" ng-hide="">
+                                            &times;
+                                        </button></p>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="rule">
-                              <div style="text-align: left;">
-                                <ul>
-                                  <li>Chủ phòng: X.</li>
-                                  <li>Khách chọn "Start" để xác nhận chơi.</li>
-                                </ul>
-                              </div>
+                                <div style="text-align: left;">
+                                    <ul>
+                                        <li>Chủ phòng: X.</li>
+                                        <li>Khách chọn "Start" để xác nhận chơi.</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>

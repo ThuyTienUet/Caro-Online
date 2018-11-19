@@ -121,8 +121,13 @@ body {
     width: 33px;
 }
 
+.list-member {
+    height: 300px;
+    overflow-y: scroll;
+}
+
 .board {
-    margin: 0px;
+    margin: 0;
     width: 580px;
     height: 580px;
     /* border: 0.5px solid rgb(116, 12, 119); */
@@ -323,10 +328,22 @@ div.list-group-item, li.list-group-item {
 
 .notification {
     position: fixed;
-    margin: auto;
     text-align: center;
-    background-color: rgba(255,255,255,0.6);
-    width: 100%;
-    height: 30%;
+    margin: auto;
+    width: 580px;
+    height: 25%;
+    top: 40%;
+    background-color: rgba(163, 119, 228, 0.7);
     z-index: 2;
+}
+
+.noti-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 30px;
+    font-family: 'Poppins', sans-serif;
+    color: initial;
+    animation-iteration-count: infinite;
 }
