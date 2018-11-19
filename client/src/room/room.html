@@ -15,9 +15,9 @@
                 </div>
             </div>
 
-            <!-- <div class="notification animated zoomInUp">
-                <div class="noti-text animated flash">You win! Congratulation.</div>
-            </div> -->
+            <div class="notification animated zoomInUp" ng-show="win">
+                <div class="noti-text animated flash">{{playerWin}} win! Congratulation.</div>
+            </div>
         </div>
         <div class="col-md-4">
             <div class="row control-button">
@@ -30,10 +30,10 @@
             </div>
             <div class="player-box">
                 <div class="player">
-                    <i class="far fa-circle"></i>&nbsp;{{ player1.username }}
+                    <i class="fas fa-times"></i>&nbsp;{{ player1.username }}
                 </div>
                 <div class="player">
-                    <i class="fas fa-times"></i>&nbsp;{{ player2.username }}
+                    <i class="far fa-circle"></i>&nbsp;{{ player2.username }}
                 </div>
             </div>
             <!-- <div class="timer-box">
@@ -68,8 +68,7 @@
                                 </div>
                                 <div class="type-msg">
                                     <div class="input-msg-write">
-                                        <input type="text" class="write-msg" placeholder="Type a message" ng-keypress="enterSendMess($event)"
-                                            ng-model="content">
+                                        <input type="text" class="write-msg" placeholder="Type a message" ng-keypress="enterSendMess($event)" ng-model="content">
                                         <button class="msg-send-btn" type="button" ng-click="sendMess()">
                                             <span class="
                                                 glyphicon glyphicon-send"></span>
@@ -79,17 +78,20 @@
                             </div>
                             <div class="tab-pane fade list-member" id="members">
                                 <div ng-repeat="member in listUser track by $index">
-                                    <p>{{ member }} <button type="button" class="close" ng-click="onCancelButtonClicked()"
-                                            aria-hidden="true" ng-hide="">
+                                    <p>{{ member }}
+                                        <button type="button" class="close" ng-click="onCancelButtonClicked()" 
+                                            ng-show="isBossRoom">
                                             &times;
-                                        </button></p>
+                                        </button>
+                                    </p>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="rule">
                                 <div style="text-align: left;">
                                     <ul>
-                                        <li>Chủ phòng: X.</li>
-                                        <li>Khách chọn "Start" để xác nhận chơi.</li>
+                                        <li>Chủ phòng: X</li>
+                                        <li>Khách chọn "Start" để xác nhận chơi</li>
+                                        <li>Chủ phòng đi trước</li>
                                     </ul>
                                 </div>
                             </div>

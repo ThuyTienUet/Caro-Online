@@ -13,8 +13,9 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
-    let win = false;
-    
+    $scope.isBossRoom = false;
+    $scope.win = false;
+
     socket.emit('joined', { room: room, user: user });
 
     socket.on('joinedRoom', function (data) {
@@ -28,11 +29,15 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             } else {
                 $scope.player2 = {}
             }
+            if ($scope.player1.username == user.username) {
+                $scope.isBossRoom = true;
+            }
         })
     })
 
     socket.on('initBoard', function (data) {
         $timeout(function () {
+            $scope.win = false;
             $scope.board = data.board;
             $scope.player2 = data.player2;
         })
@@ -42,12 +47,12 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
             socket.emit('startPlay', { user: user, room: room });
             var timeleft = 30;
-            var downloadTimer = setInterval(function () {
-                document.getElementById("time").innerHTML = timeleft--;
-                if (timeleft < 0) {
-                    timeleft = 30;
-                }
-            }, 1000);
+            // var downloadTimer = setInterval(function () {
+            //     document.getElementById("time").innerHTML = timeleft--;
+            //     if (timeleft < 0) {
+            //         timeleft = 30;
+            //     }
+            // }, 1000);
         }
     }
 
@@ -83,7 +88,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     })
 
     $scope.clickXO = function (row, col) {
-        if (win == false) {
+        if ($scope.win == false) {
             if ($scope.board[row][col] == 0) {
                 if ($scope.board != undefined) {
                     socket.emit('click', {
@@ -104,14 +109,13 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
             else {
                 $scope.board = data.board;
-                win = true;
+                $scope.win = true;
                 let user = {
                     username: data.user.username
                 }
                 $http.post('/api/user/point/update', user)
                     .then(function successCallback(data) {
-                        console.log(data);
-                        alert(user.username + ' WIN.');
+                        $scope.playerWin = user.username;
                     }, function errorCallback(err) {
                         console.log(err);
                     })

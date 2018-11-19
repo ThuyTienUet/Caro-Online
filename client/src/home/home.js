@@ -6,14 +6,13 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     if (auth.isLoggedIn() == false) {
         $location.path('/')
     }
-
     let tmp = {};
     $scope.rooms = [];
     $scope.users = [];
     let user = JSON.parse(auth.getUser());
 
-
     socket.on('deleteRoom', function (data) {
+        console.log('abc');
         $http.post('/api/room/delete', data)
             .then(function successCallback(dt) {
                 $scope.rooms.forEach(function (room, i) {
@@ -29,8 +28,6 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     $http.post('/api/user/list', tmp)
         .then(function successCallback(data) {
             $scope.users = data.data.listUser;
-            console.log($scope.users);
-            
         }, function errorCallback(err) {
             console.log(err);
         })

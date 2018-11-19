@@ -3,14 +3,6 @@ angular
     .service('auth', authentication);
 authentication.$inject = ['$window', '$http', '$location'];
 function authentication($window, $http, $location) {
-    var saveToken = function (token) {
-        // $window.localStorage['token'] = token;
-        $window.sessionStorage['token'] = token;
-    };
-    var getToken = function () {
-        // return $window.localStorage['token']; 
-        return $window.sessionStorage['token'];
-    };
     var saveUser = function (user) {
         $window.sessionStorage['user'] = JSON.stringify(user);
     }
@@ -18,15 +10,16 @@ function authentication($window, $http, $location) {
         if (!$window.localStorage['user']) {
             return $window.sessionStorage['user']
         } else {
-            return $window.localStorage['user']; 
+            return $window.localStorage['user'];
         }
     }
 
     var login = function (user, cb) {
         return $http.post('/api/login', user)
             .then(function successCallback(data) {
-                saveToken(data.data.user.token);
-                saveUser(data.data.user.user);
+                if (data.data.code == 200) {
+                    saveUser(data.data.user.user);
+                }
                 cb(data.data);
             }, function errorCallback(err) {
                 console.log(err);
@@ -42,7 +35,6 @@ function authentication($window, $http, $location) {
             });
     }
     var logout = function () {
-        $window.sessionStorage.removeItem('token');
         $window.sessionStorage.removeItem('user');
         $window.localStorage.removeItem('user');
         $location.path('/')
@@ -57,8 +49,6 @@ function authentication($window, $http, $location) {
     };
 
     return {
-        saveToken: saveToken,
-        getToken: getToken,
         getUser: getUser,
         login: login,
         register: register,
