@@ -1,0 +1,31 @@
+<navigation></navigation>
+<div class="content">
+    <div class="container">
+        <div class="divTable">
+            <div class="col-sm-12 no-padding divHeading">
+                <div class="Cell col-sm-1">
+                    STT
+                </div>
+                <div class="Cell col-sm-4">
+                    Username
+                </div>
+                <div class="Cell col-sm-2">
+                    Action
+                </div>
+            </div>
+            <div class="col-sm-12 no-padding Row" ng-repeat="x in data | filter: searchText" ng-init="x.show=false">
+                <div class="Cell col-sm-1">
+                    {{ $index + 1 }}
+                </div>
+                <div class="Cell col-sm-4">
+                    {{ x.username }}
+                    <div class="Cell col-sm-2">
+                        <a ng-click="deleteApi(x._id)">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
