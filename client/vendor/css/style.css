@@ -25,12 +25,13 @@ body {
 .navbar-inverse .navbar-brand {
     color: #fff;
     font-family: 'Lobster', cursive;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .player-box {
     display: flex;
     justify-content: space-evenly;
+    font-size: 23px;
 }
 
 .player {
@@ -346,4 +347,15 @@ div.list-group-item, li.list-group-item {
     font-family: 'Poppins', sans-serif;
     color: initial;
     animation-iteration-count: infinite;
+}
+
+div.modal-header {
+    background: linear-gradient(to right, #800080, #ffc0cb);
+    color: #fff;
+    font-family: 'Lobster', cursive;
+}
+
+h2 {
+    font-family: 'Merienda', cursive;
+    color: initial;
 }

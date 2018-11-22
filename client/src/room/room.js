@@ -42,12 +42,12 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
             socket.emit('startPlay', { user: user, room: room });
             var timeleft = 30;
-            var downloadTimer = setInterval(function () {
-                document.getElementById("time").innerHTML = timeleft--;
-                if (timeleft < 0) {
-                    timeleft = 30;
-                }
-            }, 1000);
+            // var downloadTimer = setInterval(function () {
+            //     document.getElementById("time").innerHTML = timeleft--;
+            //     if (timeleft < 0) {
+            //         timeleft = 30;
+            //     }
+            // }, 1000);
         }
     }
 
