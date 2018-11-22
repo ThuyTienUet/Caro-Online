@@ -6,12 +6,13 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     if (auth.isLoggedIn() == false) {
         $location.path('/')
     }
-
     let tmp = {};
     $scope.rooms = [];
     $scope.users = [];
+    $scope.isAdmin = false;
     let user = JSON.parse(auth.getUser());
-
+    
+    if (user.role == 1) $scope.isAdmin = true;
 
     socket.on('deleteRoom', function (data) {
         $http.post('/api/room/delete', data)
@@ -29,8 +30,6 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     $http.post('/api/user/list', tmp)
         .then(function successCallback(data) {
             $scope.users = data.data.listUser;
-            console.log($scope.users);
-            
         }, function errorCallback(err) {
             console.log(err);
         })
@@ -42,6 +41,21 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
             console.log(err);
         })
 
+    $scope.cancelRoom = function (room) {
+        socket.emit('cancelRoom', room)
+        
+        $http.post('/api/room/delete', room)
+            .then(function successCallback(dt) {
+                $scope.rooms.forEach(function (room_, i) {
+                    if (room_.id == room.id) {
+                        $scope.rooms.splice(i, 1);
+                    }
+                })
+                $location.path('/home')
+            }, function errorCallback(err) {
+                console.log(err);
+            })
+    }
     $scope.addRoom = function () {
         dialog.nameRoom(function (result) {
             if (result) {

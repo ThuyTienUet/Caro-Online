@@ -9,13 +9,19 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     }
     let room = JSON.parse($window.sessionStorage['room']);
     let user = JSON.parse(auth.getUser());
-
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
-    let win = false;
-    
-    socket.emit('joined', { room: room, user: user });
+    $scope.isBossRoom = false;
+    $scope.win = false;
+
+    socket.on('reloadRoom', function () {
+        $scope.reload = true;
+    })
+
+    if (!$scope.reload) {
+        socket.emit('joined', { room: room, user: user });
+    }
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
@@ -28,11 +34,15 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             } else {
                 $scope.player2 = {}
             }
+            if ($scope.player1.username == user.username) {
+                $scope.isBossRoom = true;
+            }
         })
     })
 
     socket.on('initBoard', function (data) {
         $timeout(function () {
+            $scope.win = false;
             $scope.board = data.board;
             $scope.player2 = data.player2;
         })
@@ -64,13 +74,26 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         }
     });
 
+    // window.onbeforeunload = function () {
+    //     $location.path('/home')
+        
+    //    return 'abc'
+    // };
+    
+    $scope.cancelMember = function (member) {
+        socket.emit('quitRoom', { room: room, user: {username: member}, event: 'cancel' });
+    }
+
     $scope.quit = function () {
-        socket.emit('quitRoom', { room: room, user: user });
+        socket.emit('quitRoom', { room: room, user: user, event: 'quit' });
         $location.path('/home')
     }
 
     socket.on('quitedRoom', function (data) {
         $timeout(function () {
+            if (user.username == data.member && data.event == 'cancel') {
+                $location.path('/home')
+            }
             $scope.listUser = data.listUser;
             $scope.player1 = data.player1;
             $scope.player2 = data.player2;
@@ -82,8 +105,12 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         $location.path('/home')
     })
 
+    socket.on('cancelledRoom', function () {
+        $location.path('/home')
+    })
+
     $scope.clickXO = function (row, col) {
-        if (win == false) {
+        if ($scope.win == false) {
             if ($scope.board[row][col] == 0) {
                 if ($scope.board != undefined) {
                     socket.emit('click', {
@@ -104,14 +131,13 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
             else {
                 $scope.board = data.board;
-                win = true;
+                $scope.win = true;
                 let user = {
                     username: data.user.username
                 }
                 $http.post('/api/user/point/update', user)
                     .then(function successCallback(data) {
-                        console.log(data);
-                        alert(user.username + ' WIN.');
+                        $scope.playerWin = user.username;
                     }, function errorCallback(err) {
                         console.log(err);
                     })
