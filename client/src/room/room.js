@@ -9,13 +9,13 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     }
     let room = JSON.parse($window.sessionStorage['room']);
     let user = JSON.parse(auth.getUser());
-    $scope.mine = user;
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
     $scope.isBossRoom = false;
     $scope.win = false;
 
+    // let timeleft = 30;
     socket.on('reloadRoom', function () {
         $scope.reload = true;
     })
@@ -46,19 +46,20 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             $scope.win = false;
             $scope.board = data.board;
             $scope.player2 = data.player2;
-        })
-    });
-
-    $scope.start = function () {
-        if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
-            socket.emit('startPlay', { user: user, room: room });
-            var timeleft = 30;
             // var downloadTimer = setInterval(function () {
             //     document.getElementById("time").innerHTML = timeleft--;
             //     if (timeleft < 0) {
             //         timeleft = 30;
             //     }
             // }, 1000);
+        })
+    });
+
+    // document.getElementById("time").innerHTML = timeleft--;
+
+    $scope.start = function () {
+        if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
+            socket.emit('startPlay', { user: user, room: room });
         }
     }
 
@@ -75,12 +76,8 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         }
     });
 
-    // window.onbeforeunload = function () {
-    //     $location.path('/home')
-
-    //    return 'abc'
-    // };
-
+    
+    
     $scope.cancelMember = function (member) {
         socket.emit('quitRoom', { room: room, user: { username: member }, event: 'cancel' });
     }
@@ -102,7 +99,13 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         })
     })
 
-    socket.on('deleteRoom', function () {
+    socket.on('deleteRoom', function (data) {
+        if (room.name == data.name) {
+            $location.path('/home')
+        }
+    })
+
+    socket.on('cancelledRoom', function () {
         $location.path('/home')
     })
 

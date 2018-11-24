@@ -19,7 +19,10 @@
                     </a>
                     <ul class="dropdown-menu" role="menu">
                         <li>
-                            <a href="" ng-click="logout()">Log out&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
+                            <a href="/#!/admin" ng-show="isAdmin">Account <span class="glyphicon glyphicon-user"></span></a>
+                        </li>
+                        <li>
+                            <a href="" ng-click="logout()">Log out&nbsp; <span class="glyphicon glyphicon-log-out"></span></a>
                         </li>
                     </ul>
                 </li>

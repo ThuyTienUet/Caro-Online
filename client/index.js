@@ -24,7 +24,7 @@ angular
             })
             .when('/admin', {
                 templateUrl: 'src/administration/administration.html',
-                controller: 'administrationCtrl'
+                controller: 'adminCtrl'
             })
             .otherwise({ redirectTo: '/' });
     }])
