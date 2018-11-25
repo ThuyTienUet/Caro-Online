@@ -151,11 +151,15 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     });
 
     $scope.sendMess = function () {
+        
+        
         socket.emit('sendMess', { user: user, room: room, content: $scope.content })
     }
 
     $scope.enterSendMess = function (e) {
         if (e.keyCode == 13) {
+            let tmp = $scope.content.split(' ');
+        console.log(tmp);
             socket.emit('sendMess', { user: user, room: room, content: $scope.content })
         }
     }
@@ -165,5 +169,11 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             $scope.listMess = data;
             $scope.content = "";
         })
+    })
+
+    socket.on('cancelUser', function (data) {
+        if (user.id == data) {
+            $location.path('/');
+        }
     })
 }

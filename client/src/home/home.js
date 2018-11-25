@@ -6,12 +6,11 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     if (auth.isLoggedIn() == false) {
         $location.path('/')
     }
-    let tmp = {};
     $scope.rooms = [];
     $scope.users = [];
     $scope.isAdmin = false;
     let user = JSON.parse(auth.getUser());
-    
+
     if (user.role == 1) $scope.isAdmin = true;
 
     socket.on('deleteRoom', function (data) {
@@ -27,14 +26,14 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
             })
     })
 
-    $http.post('/api/user/list', tmp)
+    $http.post('/api/user/list')
         .then(function successCallback(data) {
             $scope.users = data.data.listUser;
         }, function errorCallback(err) {
             console.log(err);
         })
 
-    $http.post('/api/room/list', tmp)
+    $http.post('/api/room/list')
         .then(function successCallback(data) {
             $scope.rooms = data.data.listRoom;
         }, function errorCallback(err) {
@@ -43,7 +42,7 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
 
     $scope.cancelRoom = function (room) {
         socket.emit('cancelRoom', room)
-        
+
         $http.post('/api/room/delete', room)
             .then(function successCallback(dt) {
                 $scope.rooms.forEach(function (room_, i) {
@@ -78,5 +77,29 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
         }
         $window.sessionStorage['room'] = JSON.stringify(room);
         $location.path('/room')
-    } 
+    }
+
+    socket.on('userNew', function (data) {
+        $timeout(function () {
+            $scope.users.push(data)
+        })
+    })
+
+    socket.on('cancelUser', function (data) {
+        $timeout(function () {
+            if (user.id == data) {
+                $window.sessionStorage.removeItem('user');
+                $window.localStorage.removeItem('user');
+                $location.path('/')
+            }
+            $scope.users.forEach(function (user_, i) {
+                console.log(user_);
+                
+                if (user_.id == data) {
+                    $scope.users.splice(i, 1);
+                }
+            })
+        })
+    })
 }
+

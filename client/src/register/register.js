@@ -2,15 +2,12 @@ angular
     .module('caroOnline')
     .controller('registerCtrl', registerCtrl);
 
-//registerCtrl.$inject = ['$location', 'authentication', '$http'];
 function registerCtrl($location, auth, $http, $scope) {
     $scope.user = {
         username: "",
         password: "",
         cf_password: ""
     };
-
-    //$scope.returnPage = $location.search().page || '/';
 
     $scope.onSubmit = function () {
         $scope.formError = "";
@@ -24,17 +21,17 @@ function registerCtrl($location, auth, $http, $scope) {
             doRegister();
         }
     };
-
+  
     function doRegister() {
         $scope.formError = "";
         auth
             .register($scope.user, function (data) {
                 if (data.code === 200) {
+                    socket.emit('register', $scope.user);
                     $location.path('/login');
                 } else {
                     $scope.formError = "Username exist already";
                 }
             })
-
     };
 }
