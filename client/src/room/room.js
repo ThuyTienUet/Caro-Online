@@ -158,11 +158,13 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     $scope.enterSendMess = function (e) {
         if (e.keyCode == 13) {
+            let tmp = $scope.content.split(' ');
             socket.emit('sendMess', { user: user, room: room, content: $scope.content });
             // $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight")}, 10);
         }
     }
 
+   
 
     socket.on('sended', function (data) {
         $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight") }, 10);
@@ -170,5 +172,11 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             $scope.listMess = data;
             $scope.content = "";
         })
+    })
+
+    socket.on('cancelUser', function (data) {
+        if (user.id == data) {
+            $location.path('/');
+        }
     })
 }
