@@ -419,3 +419,14 @@ h2 {
 div.no-padding {
     padding: 0;
 }
+
+.btn-sm {
+    padding: 0px 6px;
+}
+
+.divTable .Cell {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-top: none;
+    border-bottom: none;
+}

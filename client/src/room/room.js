@@ -15,6 +15,8 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.isBossRoom = false;
     $scope.win = false;
 
+    $scope.mine = user;
+
     // let timeleft = 30;
     socket.on('reloadRoom', function () {
         $scope.reload = true;
