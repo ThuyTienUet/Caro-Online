@@ -1,13 +1,14 @@
 body {
-    background: url('bg.png');
+    /* background: url('bg.png'); */
+    background: linear-gradient(rgba(97,67,133, 0.95), rgba(81,99,149, 0.95)), url('bg1.jpg'); 
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    /* background: linear-gradient(to top, #fbc2eb 0%, #a6c1ee 100%); */
+    /* background: linear-gradient(to right, #614385, #516395);*/
 }
 
 .navbar-inverse {
-    background: rgba(0, 0, 0, 0.1);
+    background: transparent;
     border-color: transparent;
     box-shadow: none;
     color: #fff;
@@ -31,6 +32,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     font-size: 23px;
+    color: navajowhite; 
 }
 
 .player {
@@ -73,6 +75,7 @@ body {
 
 .with-nav-tabs.panel-primary .nav-tabs>li.dropdown .dropdown-menu>li>a {
     color: #fff;
+    transition: color .2s ease-in-out;
 }
 
 .with-nav-tabs.panel-primary .nav-tabs>li.dropdown .dropdown-menu>li>a:hover, .with-nav-tabs.panel-primary .nav-tabs>li.dropdown .dropdown-menu>li>a:focus {
@@ -248,7 +251,7 @@ div.conservation {
     padding-left: 5%;
     padding-top: 15%;
     font-weight: 800;
-    color: darkslateblue;
+    color: white;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -362,7 +365,7 @@ div.modal-body {
 
 h2 {
     font-family: 'Merienda', cursive;
-    color: initial;
+    color: cornsilk;
 }
 
 .divTable {

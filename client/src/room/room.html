@@ -63,10 +63,14 @@
                     <div class="panel-body">
                         <div class="tab-content">
                             <div class="tab-pane fade in active" id="chat-room">
-                                <div class="conservation">
+                                <div class="conservation" id="conservation">
                                     <div ng-repeat="mess in listMess">
-                                        <p>
-                                            <strong>{{ mess.sender }}: </strong> {{ mess.content }}</p>
+                                        <p ng-if="mess.sender !== mine.username">
+                                            <strong>{{ mess.sender }}: </strong> {{ mess.content }}
+                                        </p>
+                                        <p ng-if="mess.sender === mine.username" style="text-align: right; padding-right: 10px;">
+                                            {{ mess.content }}
+                                        </p>
 
                                     </div>
                                 </div>

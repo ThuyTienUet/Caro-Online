@@ -9,7 +9,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     }
     let room = JSON.parse($window.sessionStorage['room']);
     let user = JSON.parse(auth.getUser());
-
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
@@ -80,7 +79,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     
     
     $scope.cancelMember = function (member) {
-        socket.emit('quitRoom', { room: room, user: {username: member}, event: 'cancel' });
+        socket.emit('quitRoom', { room: room, user: { username: member }, event: 'cancel' });
     }
 
     $scope.quit = function () {
@@ -151,20 +150,22 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     });
 
     $scope.sendMess = function () {
-        
-        
-        socket.emit('sendMess', { user: user, room: room, content: $scope.content })
+        socket.emit('sendMess', { user: user, room: room, content: $scope.content });
+        // $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight")}, 10);
     }
 
     $scope.enterSendMess = function (e) {
         if (e.keyCode == 13) {
             let tmp = $scope.content.split(' ');
-        console.log(tmp);
-            socket.emit('sendMess', { user: user, room: room, content: $scope.content })
+            socket.emit('sendMess', { user: user, room: room, content: $scope.content });
+            // $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight")}, 10);
         }
     }
 
+   
+
     socket.on('sended', function (data) {
+        $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight") }, 10);
         $timeout(function () {
             $scope.listMess = data;
             $scope.content = "";

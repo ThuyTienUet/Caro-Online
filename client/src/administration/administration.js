@@ -13,6 +13,7 @@ function adminCtrl($scope, $http, $timeout) {
         })
 
     $scope.deleteUser = function (id) {
+
         $http.post('/api/user/delete', { id: id })
             .then(function successCallback(data) {
                 if (data.data.code == 200) {
