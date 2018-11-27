@@ -78,8 +78,8 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         }
     });
 
-    
-    
+
+
     $scope.cancelMember = function (member) {
         socket.emit('quitRoom', { room: room, user: { username: member }, event: 'cancel' });
     }
@@ -107,12 +107,10 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
         }
     })
 
-    socket.on('cancelledRoom', function () {
-        $location.path('/home')
-    })
-
-    socket.on('cancelledRoom', function () {
-        $location.path('/home')
+    socket.on('cancelledRoom', function (data) {
+        if (data == 'abc') {
+            $location.path('/home')
+        }
     })
 
     $scope.clickXO = function (row, col) {
@@ -163,8 +161,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             // $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight")}, 10);
         }
     }
-
-   
 
     socket.on('sended', function (data) {
         $("#conservation").animate({ scrollTop: $('#conservation').prop("scrollHeight") }, 10);

@@ -32,7 +32,7 @@ body {
     display: flex;
     justify-content: space-evenly;
     font-size: 23px;
-    color: navajowhite; 
+    color: white; 
 }
 
 .player {
@@ -160,7 +160,7 @@ body {
     height: 100%;
     border-radius: 3px;
     border: 0.5px solid rgb(116, 12, 119);
-    background-color: ivory;
+    background-color: white
 }
 
 .boardCellCross {
@@ -364,10 +364,15 @@ div.modal-body {
 }
 
 h2 {
-    font-family: 'Merienda', cursive;
-    color: cornsilk;
+    font-family: 'Source Sans Pro', cursive;
+    color: white;
+    font-size: 35px;
 }
-
+h5 {
+    font-size: 24px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
 .divTable {
     width: 100%;
     display: table;

@@ -171,7 +171,7 @@ SOCKET_IO.connect = function (io) {
         })
 
         socket.on('cancelRoom', function (data) {
-            io.in(data.name).emit('cancelledRoom', ''); 
+            io.in(data.name).emit('cancelledRoom', 'abc'); 
         })
 
         socket.on('register', function (data) {
@@ -179,8 +179,6 @@ SOCKET_IO.connect = function (io) {
         })
 
         socket.on('deleteUser', function (data) {
-            console.log(data);
-            
             io.emit('cancelUser', data);
         })
     })

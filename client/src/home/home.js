@@ -42,7 +42,6 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
 
     $scope.cancelRoom = function (room) {
         socket.emit('cancelRoom', room)
-
         $http.post('/api/room/delete', room)
             .then(function successCallback(dt) {
                 $scope.rooms.forEach(function (room_, i) {
@@ -57,6 +56,8 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     }
     $scope.addRoom = function () {
         dialog.nameRoom(function (result) {
+            console.log(result);
+
             if (result) {
                 $window.sessionStorage['room'] = JSON.stringify(result);
                 $location.path('/room')
@@ -71,12 +72,15 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     })
 
     $scope.joinRoom = function (roomName, roomId) {
-        let room = {
-            name: roomName,
-            id: roomId
-        }
-        $window.sessionStorage['room'] = JSON.stringify(room);
-        $location.path('/room')
+        $timeout(function () {
+            let room = {
+                name: roomName,
+                id: roomId
+            }
+            $window.sessionStorage['room'] = JSON.stringify(room);
+            $location.path('/room')
+        })
+
     }
 
     socket.on('userNew', function (data) {
@@ -94,7 +98,7 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
             }
             $scope.users.forEach(function (user_, i) {
                 console.log(user_);
-                
+
                 if (user_.id == data) {
                     $scope.users.splice(i, 1);
                 }
