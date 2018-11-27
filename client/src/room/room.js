@@ -14,17 +14,10 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.listMess = [];
     $scope.isBossRoom = false;
     $scope.win = false;
+    $scope.lose = false;
+    $scope.other = false;
 
-    $scope.mine = user;
-
-    // let timeleft = 30;
-    socket.on('reloadRoom', function () {
-        $scope.reload = true;
-    })
-
-    if (!$scope.reload) {
-        socket.emit('joined', { room: room, user: user });
-    }
+    socket.emit('joined', { room: room, user: user });
 
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
@@ -108,9 +101,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     })
 
     socket.on('cancelledRoom', function (data) {
-        if (data == 'abc') {
-            $location.path('/home')
-        }
+        $location.path('/home')
     })
 
     $scope.clickXO = function (row, col) {
@@ -127,15 +118,36 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
         }
     }
-
+    
     socket.on('XO', function (data) {
         $timeout(function () {
+            let tmp = user;
             if (data.win == '') {
                 $scope.board = data.board;
             }
             else {
                 $scope.board = data.board;
-                $scope.win = true;
+                $scope.player_win = data.user.username;
+                console.log(data.win, tmp.username, $scope.player1.username, $scope.player2.username);
+                
+                if (data.win == 'X') {
+                    if (tmp.username == $scope.player1.username) {
+                        $scope.win = true;
+                    } else if (tmp.username == $scope.player2.username) {
+                        $scope.lose = true;
+                    } else {
+                        $scope.other = true;
+                    }
+                } else {
+                    if (tmp.username == $scope.player2.username) {
+                        $scope.win = true;
+                    } else if (tmp.username == $scope.player1.username) {
+                        $scope.lose = true;
+                    } else {
+                        $scope.other = true;
+                    }
+                }
+                $scope.win = data.user.username;
                 let user = {
                     username: data.user.username
                 }

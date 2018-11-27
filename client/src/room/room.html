@@ -22,9 +22,12 @@
             <div class="notification animated zoomInUp" ng-show="lose">
                 <div class="noti-text animated flash">You lose. <i class="far fa-frown"></i></div>
             </div>
+            <div class="notification animated zoomInUp" ng-show="other">
+                <div class="noti-text animated flash">{{player_win}} win! Congratulation. <i class="fab fa-angellist"></i></div>
+            </div>
         </div>
         <div class="col-md-4">
-            <div class="row control-button">
+            <div class="row control-button"> 
                 <button class="btn btn-success start " ng-click="start()">
                     <span class="glyphicon glyphicon-play"></span>&nbsp;Start
                 </button>
@@ -100,7 +103,6 @@
                                         <li>Chủ phòng: X</li>
                                         <li>Khách chọn "Start" để xác nhận chơi</li>
                                         <li>Chủ phòng đi trước</li>
-                                        <li>Ai được 5 nước cờ liên tiếp trước sẽ thắng</li>
                                     </ul>
                                 </div>
                             </div>
