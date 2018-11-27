@@ -33,6 +33,23 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             if ($scope.player1.username == user.username) {
                 $scope.isBossRoom = true;
             }
+            if (data.win == 'X') {
+                if (tmp.username == $scope.player1.username) {
+                    $scope.win = true;
+                } else if (tmp.username == $scope.player2.username) {
+                    $scope.lose = true;
+                } else {
+                    $scope.other = true;
+                }
+            } else {
+                if (tmp.username == $scope.player2.username) {
+                    $scope.win = true;
+                } else if (tmp.username == $scope.player1.username) {
+                    $scope.lose = true;
+                } else {
+                    $scope.other = true;
+                }
+            }
         })
     })
 
@@ -41,6 +58,9 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             $scope.win = false;
             $scope.board = data.board;
             $scope.player2 = data.player2;
+            $scope.win = false;
+            $scope.lose = false;
+            $scope.other = false;
             // var downloadTimer = setInterval(function () {
             //     document.getElementById("time").innerHTML = timeleft--;
             //     if (timeleft < 0) {
@@ -55,6 +75,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.start = function () {
         if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
             socket.emit('startPlay', { user: user, room: room });
+            
         }
     }
 
@@ -118,7 +139,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
         }
     }
-    
+
     socket.on('XO', function (data) {
         $timeout(function () {
             let tmp = user;
@@ -129,7 +150,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
                 $scope.board = data.board;
                 $scope.player_win = data.user.username;
                 console.log(data.win, tmp.username, $scope.player1.username, $scope.player2.username);
-                
+
                 if (data.win == 'X') {
                     if (tmp.username == $scope.player1.username) {
                         $scope.win = true;
@@ -147,7 +168,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
                         $scope.other = true;
                     }
                 }
-                $scope.win = data.user.username;
                 let user = {
                     username: data.user.username
                 }

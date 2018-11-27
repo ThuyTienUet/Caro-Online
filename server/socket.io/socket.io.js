@@ -53,7 +53,8 @@ SOCKET_IO.connect = function (io) {
                     listUser: LIST_USER_OF_ROOM[data.room.id],
                     listMess: LIST_MESSAGE[data.room.id],
                     player1: PLAYER1[data.room.id],
-                    player2: PLAYER2[data.room.id]
+                    player2: PLAYER2[data.room.id],
+                    win: WIN[data.room.id]
                 })
         })
 
@@ -141,10 +142,11 @@ SOCKET_IO.connect = function (io) {
                             if (i == 0) {
                                 PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
                                 PLAYER2[data.room.id].username = "";
+                                BOARD[data.room.id] = Array.matrix(15, 0);
                             } else if (username == PLAYER2[data.room.id].username) {
                                 PLAYER2[data.room.id].username = "";
+                                BOARD[data.room.id] = Array.matrix(15, 0);
                             }
-                            BOARD[data.room.id] = Array.matrix(15, 0);
                             io.in(data.room.name).emit('quitedRoom',
                                 {
                                     listUser: LIST_USER_OF_ROOM[data.room.id],
