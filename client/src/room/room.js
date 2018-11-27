@@ -204,6 +204,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     socket.on('cancelUser', function (data) {
         if (user.id == data) {
+            socket.emit('quitRoom', { room: room, user: user, event: 'quit' });
             $location.path('/');
         }
     })
