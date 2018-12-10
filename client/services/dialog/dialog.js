@@ -19,6 +19,8 @@ function dialogUtils(ModalService) {
                     }
                     $http.post('/api/room/new', room)
                         .then(function successCallback(data) {
+                            console.log(data);
+                            
                             if (data.data.code == 200) {
                                 callback(data.data.room);
                                 close($scope.name);

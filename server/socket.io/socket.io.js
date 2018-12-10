@@ -3,11 +3,7 @@ let BOARD = [];
 let START = [];
 let WIN = [];
 let PLAYER1 = [];
-let PLAYER2 = [{
-    username: '',
-    isClicked: false,
-    curPlayer: -1
-}];
+let PLAYER2 = [];
 let LIST_USER_OF_ROOM = [];
 let LIST_MESSAGE = [];
 let RELOAD_ROOM = false;
@@ -29,18 +25,23 @@ SOCKET_IO.connect = function (io) {
             if (tmp == true) {
                 LIST_USER_OF_ROOM[data.room.id].push(data.user.username);
             }
+            
             if (BOARD[data.room.id] == undefined) {
                 BOARD[data.room.id] = Array.matrix(15, 0);
             }
-            PLAYER1[data.room.id] = {
-                username: '',
-                isClicked: true,
-                curPlayer: 1
+            if (PLAYER1[data.room.id] == undefined) {
+                PLAYER1[data.room.id] = {
+                    username: '',
+                    isClicked: true,
+                    curPlayer: 1
+                }
             }
-            PLAYER2[data.room.id] = {
-                username: '',
-                isClicked: true,
-                curPlayer: -1
+            if (PLAYER2[data.room.id] == undefined) {
+                PLAYER2[data.room.id] = {
+                    username: '',
+                    isClicked: true,
+                    curPlayer: -1
+                }
             }
             PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
 
@@ -52,7 +53,8 @@ SOCKET_IO.connect = function (io) {
                     listUser: LIST_USER_OF_ROOM[data.room.id],
                     listMess: LIST_MESSAGE[data.room.id],
                     player1: PLAYER1[data.room.id],
-                    player2: PLAYER2[data.room.id]
+                    player2: PLAYER2[data.room.id],
+                    win: WIN[data.room.id]
                 })
         })
 
@@ -76,7 +78,7 @@ SOCKET_IO.connect = function (io) {
                     } else {
                         io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
                     }
-                    PLAYER1[data.room.id].isClicked = true;
+                    PLAYER1[data.room.id].isClicked = true; 
                     PLAYER2[data.room.id].isClicked = false;
                 } else if (curPlayer == -1 && PLAYER2[data.room.id].isClicked == false) {
                     BOARD[data.room.id][data.row][data.col] = curPlayer;
@@ -140,10 +142,11 @@ SOCKET_IO.connect = function (io) {
                             if (i == 0) {
                                 PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
                                 PLAYER2[data.room.id].username = "";
+                                BOARD[data.room.id] = Array.matrix(15, 0);
                             } else if (username == PLAYER2[data.room.id].username) {
                                 PLAYER2[data.room.id].username = "";
+                                BOARD[data.room.id] = Array.matrix(15, 0);
                             }
-                            BOARD[data.room.id] = Array.matrix(15, 0);
                             io.in(data.room.name).emit('quitedRoom',
                                 {
                                     listUser: LIST_USER_OF_ROOM[data.room.id],
@@ -171,7 +174,7 @@ SOCKET_IO.connect = function (io) {
         })
 
         socket.on('cancelRoom', function (data) {
-            io.in(data.name).emit('cancelledRoom', '');
+            io.in(data.name).emit('cancelledRoom', 'abc'); 
         })
 
         socket.on('register', function (data) {
@@ -179,8 +182,6 @@ SOCKET_IO.connect = function (io) {
         })
 
         socket.on('deleteUser', function (data) {
-            console.log(data);
-
             io.emit('cancelUser', data);
         })
     })
