@@ -1,6 +1,6 @@
 body {
     /* background: url('bg.png'); */
-    background: linear-gradient(rgba(97,67,133, 0.95), rgba(81,99,149, 0.95)), url('bg1.jpg'); 
+    background: linear-gradient(rgba(97, 67, 133, 0.95), rgba(81, 99, 149, 0.95)), url('bg1.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -378,6 +378,8 @@ h5 {
     display: table;
     border-collapse: collapse;
     border-spacing: 0;
+    background-color: rgba(57, 38, 79, 0.7);
+    color: palegoldenrod;
 }
 
 .divTable .divTitle {
@@ -391,7 +393,9 @@ h5 {
     display: table-row;
     font-weight: bold;
     border-bottom-width: 2px;
-    background-color: #ccc;
+    /* background-color: #ccc; */
+    background-color: rgba(57, 38, 79, 0.9);
+    color: palegoldenrod;
 }
 
 .divTable .divHeading .Cell {
@@ -404,9 +408,9 @@ h5 {
     display: table-row;
 }
 
-.divTable .Row:nth-of-type(odd) {
+/* .divTable .Row:nth-of-type(odd) {
     background-color: #f9f9f9;
-}
+} */
 
 /* .divTable .Row:hover {
 	background-color: #f5f5f5;
@@ -415,7 +419,7 @@ h5 {
 
 .divTable .Cell {
     display: table-cell;
-    border: 1px solid #ddd;
+    /* border: 1px solid rgb(31, 14, 51); */
     border-width: thin;
     padding: 8px;
     text-align: center
@@ -430,8 +434,12 @@ div.no-padding {
 }
 
 .divTable .Cell {
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
+    border-left: 1px solid rgb(31, 14, 51);
+    border-right: 1px solid rgb(31, 14, 51);
     border-top: none;
     border-bottom: none;
+}
+
+.btn-lg, .btn-lg:hover, .btn-lg:focus {
+    background-color: blueviolet;
 }
