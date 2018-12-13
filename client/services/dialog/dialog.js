@@ -1,6 +1,6 @@
 angular
     .module('caroOnline')
-    .service('dialog', dialogUtils);
+    .service('dialog', dialogUtils); 
 
 function dialogUtils(ModalService) {
     let dialogUtils = {};

@@ -11,4 +11,4 @@ module.exports.define = function(sequelize, DataTypes) {
             allowNull: false
         }
     });
-};
+}; 

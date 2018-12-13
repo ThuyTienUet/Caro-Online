@@ -114,6 +114,9 @@ SOCKET_IO.connect = function (io) {
                     PLAYER1[data.room.id].isClicked = false;
                     CLOCK[data.room.id] = 30;
                     io.in(data.room.name).emit('initBoard', { board: BOARD[data.room.id], player2: PLAYER2[data.room.id], clock: CLOCK[data.room.id] });
+                    io.emit('started',{
+                        start: START
+                    });
                 }
             } else {
                 if (PLAYER2[data.room.id].username != '') {
@@ -126,6 +129,9 @@ SOCKET_IO.connect = function (io) {
                     PLAYER1[data.room.id].isClicked = false;
                     CLOCK[data.room.id] = 30;
                     io.in(data.room.name).emit('initBoard', { board: BOARD[data.room.id], player2: PLAYER2[data.room.id], clock: CLOCK[data.room.id] });
+                    io.emit('started', {
+                        start: START
+                    });
                 }
             }
         }) 
@@ -143,10 +149,13 @@ SOCKET_IO.connect = function (io) {
                                 PLAYER1[data.room.id].username = LIST_USER_OF_ROOM[data.room.id][0];
                                 PLAYER2[data.room.id].username = "";
                                 BOARD[data.room.id] = Array.matrix(15, 0);
+                                START[data.room.id] = false;
                             } else if (username == PLAYER2[data.room.id].username) {
                                 PLAYER2[data.room.id].username = "";
                                 BOARD[data.room.id] = Array.matrix(15, 0);
+                                START[data.room.id] = false;
                             }
+                            
                             io.in(data.room.name).emit('quitedRoom',
                                 {
                                     listUser: LIST_USER_OF_ROOM[data.room.id],
@@ -156,6 +165,9 @@ SOCKET_IO.connect = function (io) {
                                     event: data.event,
                                     member: data.user.username
                                 });
+                            io.emit('quited', {
+                                start: START
+                            } )
                         }
                     }
                 })
@@ -184,6 +196,15 @@ SOCKET_IO.connect = function (io) {
         socket.on('deleteUser', function (data) {
             io.emit('cancelUser', data);
         })
+        socket.on('home', function () {
+            io.emit('joinHome', {
+                start: START
+            })
+        })
+        // socket.on('tien', function () {
+        //     console.log('tien');
+            
+        // })
     })
 };
 

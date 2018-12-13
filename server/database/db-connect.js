@@ -16,7 +16,7 @@ db.Room = require('./schemas/room.js').define(sequelize, Sequelize);
 db.Room.hasMany(db.User, {
     foreignkey: {
         name: 'idRoom',
-        allowNull: true
+        allowNull: true 
     } 
 })
 

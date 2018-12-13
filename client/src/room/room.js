@@ -9,6 +9,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     }
     let room = JSON.parse($window.sessionStorage['room']);
     let user = JSON.parse(auth.getUser());
+    let tmp = user;
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
@@ -40,16 +41,19 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
                     $scope.lose = true;
                 } else {
                     $scope.other = true;
+                    $scope.player_win = data.player1.username;
                 }
-            } else {
+            } else if (data.win == 'O') {
                 if (tmp.username == $scope.player2.username) {
                     $scope.win = true;
                 } else if (tmp.username == $scope.player1.username) {
                     $scope.lose = true;
                 } else {
                     $scope.other = true;
+                    $scope.player_win = data.player2.username;
                 }
             }
+
         })
     })
 
@@ -61,6 +65,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             $scope.win = false;
             $scope.lose = false;
             $scope.other = false;
+            // io.emit('tien', '');
             // var downloadTimer = setInterval(function () {
             //     document.getElementById("time").innerHTML = timeleft--;
             //     if (timeleft < 0) {
@@ -75,7 +80,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.start = function () {
         if (user.username == $scope.player1.username || user.username == $scope.player2.username || $scope.player2.username == "") {
             socket.emit('startPlay', { user: user, room: room });
-            
+
         }
     }
 
@@ -91,8 +96,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
         }
     });
-
-
 
     $scope.cancelMember = function (member) {
         socket.emit('quitRoom', { room: room, user: { username: member }, event: 'cancel' });
@@ -142,14 +145,14 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
 
     socket.on('XO', function (data) {
         $timeout(function () {
-            let tmp = user;
+
             if (data.win == '') {
                 $scope.board = data.board;
             }
             else {
                 $scope.board = data.board;
-                $scope.player_win = data.user.username;
-                console.log(data.win, tmp.username, $scope.player1.username, $scope.player2.username);
+               
+                // console.log(data);
 
                 if (data.win == 'X') {
                     if (tmp.username == $scope.player1.username) {

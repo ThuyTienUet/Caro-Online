@@ -9,10 +9,29 @@ function homeCtrl($scope, $http, auth, $location, $window, $timeout, dialog) {
     $scope.rooms = [];
     $scope.users = [];
     $scope.isAdmin = false;
+    $scope.start = [];
+    $scope.stop = [];
     let user = JSON.parse(auth.getUser());
 
     if (user.role == 1) $scope.isAdmin = true;
 
+    socket.emit('home','');
+    socket.on('joinHome', function (data) {
+        
+        $timeout(function () {
+            $scope.start = data.start;
+        })
+    })
+    socket.on('started', function (data) {
+        $timeout(function () {
+            $scope.start = data.start;
+        })
+    })
+    socket.on('quited', function (data) {
+        $timeout(function () {
+            $scope.start = data.start;
+        })
+    })
     socket.on('deleteRoom', function (data) {
         $http.post('/api/room/delete', data)
             .then(function successCallback(dt) {

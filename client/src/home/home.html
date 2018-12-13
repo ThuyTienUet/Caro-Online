@@ -10,7 +10,9 @@
     </div>
     <div class="list-group-item " style="border-radius: 25px;" ng-repeat="room in rooms">
         <h5 ng-click="joinRoom(room.name, room.id)" style="color: black; cursor: pointer">
-            {{ room.name }}
+                <span ng-show="start[room.id]" class="badge" style="width:3px; height: 10px; float: left; margin-top: 4px; background: red; color: red; font-size: 1px; margin-top: 7px; margin-right: 10px">a</span>
+                <span ng-show="!start[room.id]" class="badge" style="width:3px; height: 10px; float: left; margin-top: 4px; background: #2fd82f; color: #2fd82f; font-size: 1px; margin-top: 7px; margin-right: 10px">a</span>
+                 {{ room.name }}
         </h5>
         <button type="button" class="close" ng-click="cancelRoom(room)" ng-show="isAdmin" style="margin-top: -17px">
             &times;
