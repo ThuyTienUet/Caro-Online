@@ -16,7 +16,7 @@
   - Front-end: AngularJS, Bootstrap, socket.io.
 
 ## Cách cài đặt: 
-  ---- Yêu cầu: nodejs, mysql.
+  Yêu cầu: nodejs, mysql.
 
   - git clone https://github.com/ThuyTienUet/Caro-Online
   - npm install
