@@ -10,6 +10,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     let room = JSON.parse($window.sessionStorage['room']);
     let user = JSON.parse(auth.getUser());
     let tmp = user;
+    $scope.mine = user;
     $scope.listUser = [];
     $scope.content = "";
     $scope.listMess = [];
