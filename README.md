@@ -20,7 +20,7 @@
 
   - git clone https://github.com/ThuyTienUet/Caro-Online
   - npm install
-  - Vào file default.js trong folder config tùy chỉnh cấu hình Mysql của bạn.
+  - Vào file default.json trong folder config tùy chỉnh cấu hình Mysql của bạn.
   - Trong Mysql tạo cơ sở dữ liệu caro_online.
   - npm start
   - Xem app tại http://localhost:6001
