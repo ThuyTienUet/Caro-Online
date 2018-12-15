@@ -17,6 +17,8 @@ SOCKET_IO.connect = function (io) {
         SOCKET_IO.socket = socket;
 
         socket.on('joined', function (data) {
+            socket.room = data.room;
+            socket.user = data.user;
             let tmp = true;
             if (!LIST_USER_OF_ROOM[data.room.id]) LIST_USER_OF_ROOM[data.room.id] = [];
             LIST_USER_OF_ROOM[data.room.id].forEach(function (username, i) {
@@ -25,7 +27,7 @@ SOCKET_IO.connect = function (io) {
             if (tmp == true) {
                 LIST_USER_OF_ROOM[data.room.id].push(data.user.username);
             }
-            
+
             if (BOARD[data.room.id] == undefined) {
                 BOARD[data.room.id] = Array.matrix(15, 0);
             }
@@ -78,7 +80,7 @@ SOCKET_IO.connect = function (io) {
                     } else {
                         io.in(data.room.name).emit('XO', { user: data.user, win: WIN[data.room.id], board: BOARD[data.room.id] });
                     }
-                    PLAYER1[data.room.id].isClicked = true; 
+                    PLAYER1[data.room.id].isClicked = true;
                     PLAYER2[data.room.id].isClicked = false;
                 } else if (curPlayer == -1 && PLAYER2[data.room.id].isClicked == false) {
                     BOARD[data.room.id][data.row][data.col] = curPlayer;
@@ -114,7 +116,7 @@ SOCKET_IO.connect = function (io) {
                     PLAYER1[data.room.id].isClicked = false;
                     CLOCK[data.room.id] = 30;
                     io.in(data.room.name).emit('initBoard', { board: BOARD[data.room.id], player2: PLAYER2[data.room.id], clock: CLOCK[data.room.id] });
-                    io.emit('started',{
+                    io.emit('started', {
                         start: START
                     });
                 }
@@ -150,12 +152,14 @@ SOCKET_IO.connect = function (io) {
                                 PLAYER2[data.room.id].username = "";
                                 BOARD[data.room.id] = Array.matrix(15, 0);
                                 START[data.room.id] = false;
+                                WIN[data.room.id] = '';
                             } else if (username == PLAYER2[data.room.id].username) {
                                 PLAYER2[data.room.id].username = "";
                                 BOARD[data.room.id] = Array.matrix(15, 0);
                                 START[data.room.id] = false;
+                                WIN[data.room.id] = '';
                             }
-                            
+
                             io.in(data.room.name).emit('quitedRoom',
                                 {
                                     listUser: LIST_USER_OF_ROOM[data.room.id],
@@ -167,7 +171,7 @@ SOCKET_IO.connect = function (io) {
                                 });
                             io.emit('quited', {
                                 start: START
-                            } )
+                            })
                         }
                     }
                 })
@@ -186,7 +190,7 @@ SOCKET_IO.connect = function (io) {
         })
 
         socket.on('cancelRoom', function (data) {
-            io.in(data.name).emit('cancelledRoom', 'abc'); 
+            io.in(data.name).emit('cancelledRoom', 'abc');
         })
 
         socket.on('register', function (data) {
@@ -201,10 +205,49 @@ SOCKET_IO.connect = function (io) {
                 start: START
             })
         })
-        // socket.on('tien', function () {
-        //     console.log('tien');
-            
-        // })
+        socket.on('disconnect', function () {
+            console.log("disconnect", socket);
+            if (socket.room) {
+                if (LIST_USER_OF_ROOM[socket.room.id]) {
+                    LIST_USER_OF_ROOM[socket.room.id].forEach(function (username, i) {
+                        if (username == socket.user.username) {
+                            LIST_USER_OF_ROOM[socket.room.id].splice(i, 1);
+                            if (!LIST_USER_OF_ROOM[socket.room.id].length) {
+                                delete LIST_USER_OF_ROOM[socket.room.id];
+                                io.emit('deleteRoom', socket.room);
+                            } else {
+                                if (i == 0) {
+                                    PLAYER1[socket.room.id].username = LIST_USER_OF_ROOM[socket.room.id][0];
+                                    PLAYER2[socket.room.id].username = "";
+                                    BOARD[socket.room.id] = Array.matrix(15, 0);
+                                    START[socket.room.id] = false;
+                                    WIN[socket.room.id] = '';
+                                } else if (username == PLAYER2[socket.room.id].username) {
+                                    PLAYER2[socket.room.id].username = "";
+                                    BOARD[socket.room.id] = Array.matrix(15, 0);
+                                    START[socket.room.id] = false;
+                                    WIN[socket.room.id] = '';
+                                }
+
+                                io.in(socket.room.name).emit('quitedRoom',
+                                    {
+                                        listUser: LIST_USER_OF_ROOM[socket.room.id],
+                                        player1: PLAYER1[socket.room.id],
+                                        player2: PLAYER2[socket.room.id],
+                                        board: BOARD[socket.room.id],
+                                        event: 'quit',
+                                        member: socket.user.username
+                                    });
+                                io.emit('quited', {
+                                    start: START
+                                })
+                            }
+                        }
+                    })
+                }
+                socket.leave(socket.room.name);
+            }
+        });
     })
 };
 

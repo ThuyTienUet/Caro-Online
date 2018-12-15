@@ -20,7 +20,6 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $scope.other = false;
 
     socket.emit('joined', { room: room, user: user });
-
     socket.on('joinedRoom', function (data) {
         $timeout(function () {
             $scope.listUser = data.listUser;
@@ -92,7 +91,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
     $rootScope.$watch(function () { return $location.path() }, function (newLocation, oldLocation) {
         if ($rootScope.actualLocation === newLocation) {
             if (newLocation == '/home' && oldLocation == '/room') {
-                socket.emit('quitRoom', { room: room, user: user });
+                socket.emit('quitRoom', { room: room, user: user, event: 'quit' });
                 console.log(newLocation, oldLocation);
             }
         }
@@ -116,6 +115,9 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             $scope.player1 = data.player1;
             $scope.player2 = data.player2;
             $scope.board = data.board;
+            $scope.win = false;
+            $scope.lose = false;
+            $scope.other = false;
         })
     })
 
@@ -152,7 +154,7 @@ function roomCtrl($scope, $window, $timeout, $http, $rootScope, $route, $locatio
             }
             else {
                 $scope.board = data.board;
-               
+
                 // console.log(data);
 
                 if (data.win == 'X') {
